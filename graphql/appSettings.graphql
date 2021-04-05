@@ -1,5 +1,5 @@
 query AppSettings {
-  appSettings @context(provider: "vtex.reviews-and-ratings") {
+  appSettings @context(provider: "alleop.alleop-reviews-and-ratings") {
     allowAnonymousReviews
     requireApproval
     useLocation

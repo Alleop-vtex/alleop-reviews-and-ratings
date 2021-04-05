@@ -14,9 +14,9 @@ Reviews & Ratings is a VTEX IO native solution that allows shoppers to submit re
 
 ### Step 1 - Installing the Reviews and Ratings app
 
-Using your terminal, log in to the desired VTEX account and run the following command: 
+Using your terminal, log in to the desired VTEX account and run the following command:
 
-`vtex install vtex.reviews-and-ratings@2.x`
+`vtex install alleop.alleop-reviews-and-ratings@2.x`
 
 ### Step 2 - Defining the app settings
 

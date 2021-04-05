@@ -12,7 +12,7 @@
 
     public class AppSettingsRepository : IAppSettingsRepository
     {
-        private const string APP_SETTINGS = "vtex.reviews-and-ratings";
+        private const string APP_SETTINGS = "alleop.alleop-reviews-and-ratings";
         private const string HEADER_VTEX_CREDENTIAL = "X-Vtex-Credential";
         private const string HEADER_VTEX_WORKSPACE = "X-Vtex-Workspace";
         private const string HEADER_VTEX_ACCOUNT = "X-Vtex-Account";
