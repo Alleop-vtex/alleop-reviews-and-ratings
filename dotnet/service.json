@@ -1,0 +1,22 @@
+{
+  "stack": "dotnet",
+  "memory": 256,
+  "runtimeArgs": [
+  ],
+  "routes": {
+    "printHelloWorld": {
+      "path": "/_v/vtex/hello",
+      "public": true
+    },
+    "clearData": {
+      "path": "/reviews/clear",
+      "public": false
+    }
+  },
+  "events": {
+    "onAppsLinked": {
+      "sender": "apps",
+      "keys": ["linked"]
+    }
+  }
+}

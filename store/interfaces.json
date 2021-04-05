@@ -1,0 +1,11 @@
+{
+  "product-reviews.vtex": {
+    "component": "Reviews"
+  },
+  "product-rating-summary.vtex": {
+    "component": "RatingSummary"
+  },
+  "product-rating-inline.vtex": {
+    "component": "RatingInline"
+  }
+}

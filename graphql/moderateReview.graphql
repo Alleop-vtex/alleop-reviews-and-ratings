@@ -1,0 +1,3 @@
+mutation ModerateReview($ids: [ID!], $approved: Boolean!) {
+  moderateReview(ids: $ids, approved: $approved)
+}

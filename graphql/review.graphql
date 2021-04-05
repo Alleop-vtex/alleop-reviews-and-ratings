@@ -1,0 +1,17 @@
+query Review($id: ID!) {
+  review(id: $id) {
+    id
+    cacheId
+    productId
+    rating
+    title
+    text
+    reviewerName
+    location
+    shopperId
+    reviewDateTime
+    verifiedPurchaser
+    sku
+    approved
+  }
+}
