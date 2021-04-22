@@ -20,6 +20,12 @@
     "typeRoots": ["node_modules/@types"],
     "types": ["node", "jest"]
   },
+  "awesomeTypescriptLoaderOptions": {
+    "useWebpackText": true,
+    "useTranspileModule": true,
+    "doTypeCheck": true,
+    "forkChecker": true
+    },
   "exclude": ["node_modules"],
   "include": ["./typings/*.d.ts", "./**/*.tsx", "./**/*.ts"],
   "typeAcquisition": {
