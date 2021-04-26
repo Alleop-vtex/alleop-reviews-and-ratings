@@ -927,12 +927,13 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
           </Fragment>
         ) : (
           <div className={`${handles.noReviews}`}>
-            <div className={`${handles.noReviewsText}`}>
+            <h3 className={`${handles.noReviewsText}`}>
               <FormattedMessage id="store/reviews.list.emptyState" />
-            </div>
-            <div className={`${handles.writeReviewFlex}`} >
-              <h3 className={`${handles.writeReviewHeading}`} >You have something to say about this product?</h3>
-              <h5 className={`${handles.writeReviewSubheading}`} >Do not hesitate to tell us what you really think. From 1 to 5 how would you rate it?</h5>
+            </h3>
+            <div className={`${handles.writeReviewFlex}`}>
+              <h5 className={`${handles.writeReviewSubheading}`} >
+                <FormattedMessage id="store/reviews.list.subHeading"/>
+              </h5>
               <div className={`${handles.writeReviewContainer} vtex-writeReviewContainer--noReviews`} >
                 {(state.settings && state.settings.allowAnonymousReviews) ||
                 (state.settings &&
@@ -954,13 +955,18 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
                     <ReviewForm settings={state.settings} />
                   </Collapsible>
                 ) : (
-                  <Link
-                    page="store.login"
-                    query={`returnUrl=${encodeURIComponent(url)}`}
-                    className={`${handles.loginLink} h1 w2 tc flex items-center w-100-s h-100-s pa4-s`}
-                  >
-                    <FormattedMessage id="store/reviews.list.login" />
-                  </Link>
+                  <div>
+                    <FormattedMessage id="store/reviews.list.writeReviewLinkPt1" />
+                    <Link
+                      page="store.login"
+                      query={`returnUrl=${encodeURIComponent(url)}`}
+                      className={`${handles.loginLink} h1 w2 tc flex items-center w-100-s h-100-s pa4-s`}
+                    >
+                      <FormattedMessage id="store/reviews.list.login" />
+                    </Link>
+                    <FormattedMessage id="store/reviews.list.writeReviewLinkPt2" />
+                  </div>
+                  
                 )}
               </div>
             </div>
