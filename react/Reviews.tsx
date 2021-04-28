@@ -939,21 +939,9 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
                 (state.settings &&
                   !state.settings.allowAnonymousReviews &&
                   state.userAuthenticated) ? (
-                  <Collapsible
-                    header={
-                      <span className={`${handles.writeReviewButton}`} >
-                        <FormattedMessage id="store/reviews.list.writeReview" />
-                      </span>
-                    }
-                    onClick={() => {
-                      dispatch({
-                        type: 'TOGGLE_REVIEW_FORM',
-                      })
-                    }}
-                    isOpen={state.showForm}
-                  >
+                  <div> {/*.writeReviewButton*/}
                     <ReviewForm settings={state.settings} />
-                  </Collapsible>
+                  </div>
                 ) : (
                   <div>
                     <FormattedMessage id="store/reviews.list.writeReviewLinkPt1" />

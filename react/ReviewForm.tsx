@@ -359,7 +359,7 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
     <div className={`${handles.formContainer} bg-muted-5 pa5 mt2`}>
       <Card>
         <h3>
-          <FormattedMessage id="store/reviews.form.title" />
+          {/* {<FormattedMessage id="store/reviews.form.title" />} */}
         </h3>
         {state.reviewSubmitted ? (
           <h5>
@@ -371,6 +371,43 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
           </div>
         ) : (
           <form>
+
+            <div className="mv3">
+              <StarPicker
+                label={intl.formatMessage(messages.ratingLabel)}
+                rating={state.rating}
+                onStarClick={(_, index: number) => {
+                  dispatch({
+                    type: 'SET_RATING',
+                    args: {
+                      rating: index + 1,
+                    },
+                  })
+                }}
+              />
+            </div>
+           
+            <div className="mv3">
+              <Input
+                label={intl.formatMessage(messages.nameLabel)}
+                size="large"
+                value={state.reviewerName}
+                onChange={(event: React.FormEvent<HTMLInputElement>) =>
+                  dispatch({
+                    type: 'SET_NAME',
+                    args: {
+                      name: event.currentTarget.value,
+                    },
+                  })
+                }
+                errorMessage={
+                  state.showValidationErrors && !state.validation.hasName
+                    ? intl.formatMessage(messages.requiredField)
+                    : ''
+                }
+              />
+            </div>
+
             <div className="mv3">
               <Input
                 label={intl.formatMessage(messages.reviewTitleLabel)}
@@ -392,40 +429,7 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
                 }
               />
             </div>
-            <div className="mv3">
-              <StarPicker
-                label={intl.formatMessage(messages.ratingLabel)}
-                rating={state.rating}
-                onStarClick={(_, index: number) => {
-                  dispatch({
-                    type: 'SET_RATING',
-                    args: {
-                      rating: index + 1,
-                    },
-                  })
-                }}
-              />
-            </div>
-            <div className="mv3">
-              <Input
-                label={intl.formatMessage(messages.nameLabel)}
-                size="large"
-                value={state.reviewerName}
-                onChange={(event: React.FormEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: 'SET_NAME',
-                    args: {
-                      name: event.currentTarget.value,
-                    },
-                  })
-                }
-                errorMessage={
-                  state.showValidationErrors && !state.validation.hasName
-                    ? intl.formatMessage(messages.requiredField)
-                    : ''
-                }
-              />
-            </div>
+
             {settings?.useLocation && (
               <div className="mv3">
                 <Input
@@ -483,6 +487,7 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
                     ? intl.formatMessage(messages.requiredField)
                     : ''
                 }
+                resize={"none"}
               />
             </div>
             <div className="mv3">
@@ -496,7 +501,7 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
                       <FormattedMessage id="store/reviews.form.invalid" />
                     </div>
                   )}
-                <Button variation="primary" onClick={() => submitReview()}>
+                <Button variation="primary" className="sendButton" onClick={() => submitReview()}>
                   <FormattedMessage id="store/reviews.form.submit" />
                 </Button>
               </Fragment>
