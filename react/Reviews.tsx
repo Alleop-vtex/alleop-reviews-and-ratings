@@ -176,6 +176,7 @@ const initialState = {
   total3: 0,
   total2: 0,
   total1: 0,
+  reviewSubmitted: false,
   average: 0,
   hasTotal: false,
   hasAverage: false,
@@ -746,7 +747,7 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
               </div>
             </div>
             <div className={`${handles.writeReviewFlex}`} >
-              <h3 className={`${handles.writeReviewHeading}`} >You have something to say about this product?</h3>
+              { <h3 className={`${handles.writeReviewHeading}`} >You have something to say about this product?</h3> /*hide it*/}
               <h5 className={`${handles.writeReviewSubheading}`} >Do not hesitate to tell us what you really think. From 1 to 5 how would you rate it?</h5>
               <div className={`${handles.writeReviewContainer}`} >
                 {(state.settings && state.settings.allowAnonymousReviews) ||

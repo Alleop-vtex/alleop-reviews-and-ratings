@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 
 import styles from '../styles.css'
 
-const Star: FunctionComponent<StarProps> = ({ filled, onClick, index = 0 }) => {
+const Star: FunctionComponent<StarProps> = ({ filled, onClick, onMouseEnter, onMouseLeave, index = 0 }) => {
   const style = filled ? styles['star--filled'] : styles['star--empty']
   const content = filled ? '★' : '☆'
 
@@ -25,6 +25,9 @@ const Star: FunctionComponent<StarProps> = ({ filled, onClick, index = 0 }) => {
       onKeyDown={(event: React.KeyboardEvent<HTMLSpanElement>) =>
         handleClick(event, index)
       }
+      onMouseEnter={(event: React.MouseEvent<HTMLSpanElement>)=> onMouseEnter?.(event, index)}
+
+      onMouseLeave={(event: React.MouseEvent<HTMLSpanElement>)=> onMouseLeave?.(event, index)}
     >
       {content}
     </span>
@@ -39,6 +42,16 @@ interface StarProps {
       | React.KeyboardEvent<HTMLSpanElement>
       | React.MouseEvent<HTMLSpanElement>,
     index: number
+  ) => void
+  onMouseEnter? : (
+    event:
+      | React.MouseEvent<HTMLSpanElement>,
+      index: number
+  ) => void
+  onMouseLeave? : (
+    event:
+      | React.MouseEvent<HTMLSpanElement>,
+      index: number
   ) => void
 }
 

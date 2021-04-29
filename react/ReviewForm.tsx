@@ -362,9 +362,20 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
           {/* {<FormattedMessage id="store/reviews.form.title" />} */}
         </h3>
         {state.reviewSubmitted ? (
-          <h5>
-            <FormattedMessage id="store/reviews.form.reviewSubmitted" />
-          </h5>
+          
+            
+          <div className="reviewSubmittedHolder">
+            <div className="reviewSubmittedImage"></div>
+          
+
+            <div className="reviewSubmittedText">
+              <h5>Благодарим ти, че сподели мнението си!</h5>
+              <p>
+                Всяко ревю се разглежда от администратор преди да бъде публикувано в сайта.
+              </p>
+            </div>
+          </div>
+            
         ) : state.alreadySubmitted ? (
           <div className="c-danger t-small mt3 lh-title">
             <FormattedMessage id="store/reviews.form.alreadySubmitted" />
@@ -501,7 +512,14 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
                       <FormattedMessage id="store/reviews.form.invalid" />
                     </div>
                   )}
-                <Button variation="primary" className="sendButton" onClick={() => submitReview()}>
+
+                <div className="termsOfUse">
+                  <p>
+                    C публикуването на ревюто се съгласяваш с <a href={'#'} className="termOfUseLink">Условията за ползване</a> на сайта
+                  </p>
+                </div>
+
+                <Button variation="primary" className="sendReviewButton" onClick={() => submitReview()}>
                   <FormattedMessage id="store/reviews.form.submit" />
                 </Button>
               </Fragment>

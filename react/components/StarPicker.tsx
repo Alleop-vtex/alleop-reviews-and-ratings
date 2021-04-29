@@ -30,6 +30,16 @@ const StarPicker: FunctionComponent<StarPickerProps> = ({
     onStarClick(event, index)
   }
 
+
+  // const hoverStar = (
+  //   event:
+  //     | React.KeyboardEvent<HTMLSpanElement>
+  //     | React.MouseEvent<HTMLSpanElement>,
+  //   index: number
+  // ) => {
+  //   console.log(event.target, index)
+  // }
+
   // const inputStyles = {
   //   display: 'none',
   //   position: 'absolute' as 'absolute',
