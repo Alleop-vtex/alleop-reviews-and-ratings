@@ -210,7 +210,7 @@ const messages = defineMessages({
   },
 })
 
-const CSS_HANDLES = ['formContainer'] as const
+const CSS_HANDLES = ['formContainer','reviewSubmittedText', 'reviewSubmittedImage', 'reviewSubmittedHolder'] as const
 
 export const ReviewForm: FC<InjectedIntlProps & Props> = ({
   intl,
@@ -364,11 +364,11 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
         {state.reviewSubmitted ? (
           
             
-          <div className="reviewSubmittedHolder">
-            <div className="reviewSubmittedImage"></div>
+          <div className={`${handles.reviewSubmittedHolder}`}>
+            <div className={`${handles.reviewSubmittedImage}`}></div>
           
 
-            <div className="reviewSubmittedText">
+            <div className={`${handles.reviewSubmittedText}`}>
               <h5>Благодарим ти, че сподели мнението си!</h5>
               <p>
                 Всяко ревю се разглежда от администратор преди да бъде публикувано в сайта.
