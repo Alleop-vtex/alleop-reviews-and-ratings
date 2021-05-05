@@ -365,7 +365,9 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
           
             
           <div className={`${handles.reviewSubmittedHolder}`}>
-            <div className={`${handles.reviewSubmittedImage}`}></div>
+            <div className={`${handles.reviewSubmittedImage}`}>
+              {/* <img src="public/metadata/thank-you-review-section.svg" alt=""/> */}
+            </div>
           
 
             <div className={`${handles.reviewSubmittedText}`}>

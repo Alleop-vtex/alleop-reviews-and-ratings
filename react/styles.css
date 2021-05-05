@@ -8,3 +8,14 @@
 }
 .star--empty {
 }
+
+.reviewSubmittedImage{
+    width: 150px;
+    height: 150px;
+    background: url(../public/metadata/thank-you-review-section.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.reviewSubmittedHolder{
+    display: flex;
+}
