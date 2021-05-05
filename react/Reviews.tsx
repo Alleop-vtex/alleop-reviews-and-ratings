@@ -140,6 +140,7 @@ interface State {
   openReviews: number[]
   settings: AppSettings
   userAuthenticated: boolean
+  filter: number | null
 }
 
 declare let global: {
@@ -164,6 +165,7 @@ type ReducerActions =
   | { type: 'SET_AVERAGE'; args: { average: number } }
   | { type: 'SET_SETTINGS'; args: { settings: AppSettings } }
   | { type: 'SET_AUTHENTICATED'; args: { authenticated: boolean } }
+  | { type: 'SET_FILTER'; args: {filter : number}}
 
 const initialState = {
   sort: 'ReviewDateTime:desc',
@@ -190,6 +192,7 @@ const initialState = {
     useLocation: false,
   },
   userAuthenticated: false,
+  filter: null
 }
 
 const reducer = (state: State, action: ReducerActions) => {
@@ -291,6 +294,11 @@ const reducer = (state: State, action: ReducerActions) => {
       return {
         ...state,
         userAuthenticated: action.args.authenticated,
+      }
+    case 'SET_FILTER':
+      return{
+        ...state,
+        filter: action.args.filter,
       }
     default:
       return state
@@ -412,7 +420,10 @@ const CSS_HANDLES = [
   'writeReviewFlex',
   'reviewBarCount',
   'noReviews',
-  'noReviewsText'
+  'noReviewsText',
+  'reviewBarCheckBox',
+  'reviewBarTotal',
+  'reviewBarInput'
 ] as const
 
 const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
@@ -700,7 +711,7 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
           <Fragment>
             <div>
               <span className={`${handles.reviewsRatingAverage} review__rating--average dib v-mid`} >
-                {state.average}
+                {state.average.toFixed(1)}
               </span>
               <div className={`${handles.starsContainer} t-heading-4`}>
                 <Stars rating={state.average} />
@@ -710,40 +721,51 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
               </span>
             </div>
             <div className={`${handles.reviewBarContainer}`} >
-              <div className={`${handles.reviewBar}`}>
-                <span className={`${handles.reviewBarStar}`}>5</span>
-                <div className={`${handles.reviewBarBack}`}>
-                  <div className={`${handles.reviewBarFront}`} style={style5} ></div>
-                </div>
-                <span className={`${handles.reviewBarCount}`}>{state.total5}</span>
+              <div className={`${handles.reviewBarCheckBox}`}>
+                <form>
+                  <input className={`${handles.reviewBarInput}`} type="radio" name="mark" id="5" value="5" onChange={()=>dispatch({type: "SET_FILTER", args:{filter:5}}) }/>
+                  <input className={`${handles.reviewBarInput}`} type="radio" name="mark" id="4" value="4" onChange={()=>dispatch({type: "SET_FILTER", args:{filter:4}}) }/>
+                  <input className={`${handles.reviewBarInput}`} type="radio" name="mark" id="3" value="3" onChange={()=>dispatch({type: "SET_FILTER", args:{filter:3}}) }/>
+                  <input className={`${handles.reviewBarInput}`} type="radio" name="mark" id="2" value="2" onChange={()=>dispatch({type: "SET_FILTER", args:{filter:2}}) }/>
+                  <input className={`${handles.reviewBarInput}`} type="radio" name="mark" id="1" value="1" onChange={()=>dispatch({type: "SET_FILTER", args:{filter:1}}) }/>
+                </form>
               </div>
-              <div className={`${handles.reviewBar}`}>
-                <span className={`${handles.reviewBarStar}`}>4</span>
-                <div className={`${handles.reviewBarBack}`}>
-                  <div className={`${handles.reviewBarFront}`} style={style4} ></div>
+              <div className={`${handles.reviewBarTotal}`}>
+                <div className={`${handles.reviewBar}`}>
+                  <span className={`${handles.reviewBarStar}`}>5</span>
+                  <div className={`${handles.reviewBarBack}`}>
+                    <div className={`${handles.reviewBarFront}`} style={style5} ></div>
+                  </div>
+                  <span className={`${handles.reviewBarCount}`}>{state.total5}</span>
                 </div>
-                <span className={`${handles.reviewBarCount}`}>{state.total4}</span>
-              </div>
-              <div className={`${handles.reviewBar}`}>
-                <span className={`${handles.reviewBarStar}`}>3</span>
-                <div className={`${handles.reviewBarBack}`}>
-                  <div className={`${handles.reviewBarFront}`} style={style3} ></div>
+                <div className={`${handles.reviewBar}`}>
+                  <span className={`${handles.reviewBarStar}`}>4</span>
+                  <div className={`${handles.reviewBarBack}`}>
+                    <div className={`${handles.reviewBarFront}`} style={style4} ></div>
+                  </div>
+                  <span className={`${handles.reviewBarCount}`}>{state.total4}</span>
                 </div>
-                <span className={`${handles.reviewBarCount}`}>{state.total3}</span>
-              </div>
-              <div className={`${handles.reviewBar}`}>
-                <span className={`${handles.reviewBarStar}`}>2</span>
-                <div className={`${handles.reviewBarBack}`}>
-                  <div className={`${handles.reviewBarFront}`} style={style2} ></div>
+                <div className={`${handles.reviewBar}`}>
+                  <span className={`${handles.reviewBarStar}`}>3</span>
+                  <div className={`${handles.reviewBarBack}`}>
+                    <div className={`${handles.reviewBarFront}`} style={style3} ></div>
+                  </div>
+                  <span className={`${handles.reviewBarCount}`}>{state.total3}</span>
                 </div>
-                <span className={`${handles.reviewBarCount}`}>{state.total2}</span>
-              </div>
-              <div className={`${handles.reviewBar}`}>
-                <span className={`${handles.reviewBarStar}`}>1</span>
-                <div className={`${handles.reviewBarBack}`}>
-                  <div className={`${handles.reviewBarFront}`} style={style1} ></div>
+                <div className={`${handles.reviewBar}`}>
+                  <span className={`${handles.reviewBarStar}`}>2</span>
+                  <div className={`${handles.reviewBarBack}`}>
+                    <div className={`${handles.reviewBarFront}`} style={style2} ></div>
+                  </div>
+                  <span className={`${handles.reviewBarCount}`}>{state.total2}</span>
                 </div>
-                <span className={`${handles.reviewBarCount}`}>{state.total1}</span>
+                <div className={`${handles.reviewBar}`}>
+                  <span className={`${handles.reviewBarStar}`}>1</span>
+                  <div className={`${handles.reviewBarBack}`}>
+                    <div className={`${handles.reviewBarFront}`} style={style1} ></div>
+                  </div>
+                  <span className={`${handles.reviewBarCount}`}>{state.total1}</span>
+                </div>
               </div>
             </div>
             <div className={`${handles.writeReviewFlex}`} >
@@ -802,109 +824,220 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
               />
             </div>
             {state.reviews.map((review: Review, i: number) => {
-              return (
-                <div
-                  key={i}
-                  className={`${handles.reviewComment} review__comment bw2 bb b--muted-5 mb5 pb4`}
-                >
-                  <Helmet>
-                    <script type="application/ld+json">
-                      {JSON.stringify({
-                        '@context': 'http://schema.org',
-                        '@type': 'Product',
-                        review: {
-                          '@type': 'Review',
-                          reviewRating: {
-                            ratingValue: review.rating.toString(),
-                            bestRating: '5',
+              if(state.filter !== null){
+                if(review.rating === state.filter){
+                  return(
+                    <div
+                    key={i}
+                    className={`${handles.reviewComment} review__comment bw2 bb b--muted-5 mb5 pb4`}
+                  >
+                    <Helmet>
+                      <script type="application/ld+json">
+                        {JSON.stringify({
+                          '@context': 'http://schema.org',
+                          '@type': 'Product',
+                          review: {
+                            '@type': 'Review',
+                            reviewRating: {
+                              ratingValue: review.rating.toString(),
+                              bestRating: '5',
+                            },
+                            author: {
+                              '@type': 'Person',
+                              name:
+                                review.reviewerName ||
+                                intl.formatMessage(messages.anonymous),
+                            },
+                            datePublished: review.reviewDateTime,
+                            reviewBody: review.text,
                           },
-                          author: {
-                            '@type': 'Person',
-                            name:
-                              review.reviewerName ||
-                              intl.formatMessage(messages.anonymous),
-                          },
-                          datePublished: review.reviewDateTime,
-                          reviewBody: review.text,
-                        },
-                        name: productName,
-                      })}
-                    </script>
-                  </Helmet>
-                  {state.settings.defaultOpen ? (
-                    <div>
-                      <span className={`${handles.reviewUsername}`}>
-                        {review.reviewerName || intl.formatMessage(messages.anonymous)}
-                      </span>
-                      <div className={`${handles.reviewCommentRating} review__comment--rating t-heading-5`} >
-                        <Stars rating={review.rating} /> {` `}
-                        <span className={`${handles.reviewCommentUser} review__comment--user lh-copy mw9 t-heading-5 mt0 mb2`} >
-                          {review.title}
+                          name: productName,
+                        })}
+                      </script>
+                    </Helmet>
+                    {state.settings.defaultOpen ? (
+                      <div>
+                        <span className={`${handles.reviewUsername}`}>
+                          {review.reviewerName || intl.formatMessage(messages.anonymous)}
                         </span>
-                      </div>
-                      <ul className="pa0 mv2 t-small">
-                        {review.verifiedPurchaser ? (
-                          <li className="dib mr5">
-                            <IconSuccess />{' '}
-                            <FormattedMessage id="store/reviews.list.verifiedPurchaser" />
-                          </li>
-                        ) : null}
-                        <span className={`${handles.reviewDate}`}>
-                          <FormattedMessage id="store/reviews.list.submitted" />{' '}
-                          {getTimeAgo(review.reviewDateTime)}
-                        </span>
-                      </ul>
-                      <p className={`${handles.reviewText}`}>
-                        <ShowMore
-                          lines={3}
-                          more="Show more"
-                          less="Show less"
-                          anchorClass=""
-                        >
-                          {review.text}
-                        </ShowMore>
-                      </p>
-                    </div>
-                  ) : (
-                    <Collapsible
-                      header={
                         <div className={`${handles.reviewCommentRating} review__comment--rating t-heading-5`} >
                           <Stars rating={review.rating} /> {` `}
                           <span className={`${handles.reviewCommentUser} review__comment--user lh-copy mw9 t-heading-5 mt0 mb2`} >
                             {review.title}
                           </span>
                         </div>
-                      }
-                      onClick={() => {
-                        dispatch({
-                          type: 'TOGGLE_REVIEW_ACCORDION',
-                          args: {
-                            reviewNumber: i,
-                          },
-                        })
-                      }}
-                      isOpen={state.openReviews.includes(i)}
-                    >
-                      <span className={`${handles.reviewUsername}`}>
-                        {review.reviewerName || intl.formatMessage(messages.anonymous)}
-                      </span>
-                      <ul className="pa0 mv2 t-small">
-                        {review.verifiedPurchaser ? (
-                          <li className="dib mr5">
-                            <IconSuccess />{' '}
-                            <FormattedMessage id="store/reviews.list.verifiedPurchaser" />
-                          </li>
-                        ) : null}
-                        <span className={`${handles.reviewDate}`}>
-                          <FormattedMessage id="store/reviews.list.submitted" />{' '}
-                          {getTimeAgo(review.reviewDateTime)}
+                        <ul className="pa0 mv2 t-small">
+                          {review.verifiedPurchaser ? (
+                            <li className="dib mr5">
+                              <IconSuccess />{' '}
+                              <FormattedMessage id="store/reviews.list.verifiedPurchaser" />
+                            </li>
+                          ) : null}
+                          <span className={`${handles.reviewDate}`}>
+                            <FormattedMessage id="store/reviews.list.submitted" />{' '}
+                            {getTimeAgo(review.reviewDateTime)}
+                          </span>
+                        </ul>
+                        <p className={`${handles.reviewText}`}>
+                          <ShowMore
+                            lines={3}
+                            more="Show more"
+                            less="Show less"
+                            anchorClass=""
+                          >
+                            {review.text}
+                          </ShowMore>
+                        </p>
+                      </div>
+                    ) : (
+                      <Collapsible
+                        header={
+                          <div className={`${handles.reviewCommentRating} review__comment--rating t-heading-5`} >
+                            <Stars rating={review.rating} /> {` `}
+                            <span className={`${handles.reviewCommentUser} review__comment--user lh-copy mw9 t-heading-5 mt0 mb2`} >
+                              {review.title}
+                            </span>
+                          </div>
+                        }
+                        onClick={() => {
+                          dispatch({
+                            type: 'TOGGLE_REVIEW_ACCORDION',
+                            args: {
+                              reviewNumber: i,
+                            },
+                          })
+                        }}
+                        isOpen={state.openReviews.includes(i)}
+                      >
+                        <span className={`${handles.reviewUsername}`}>
+                          {review.reviewerName || intl.formatMessage(messages.anonymous)}
                         </span>
-                      </ul>
-                      <p className={`${handles.reviewText}`}>{review.text}</p>
-                    </Collapsible>
-                  )}
-                </div>
-              )
+                        <ul className="pa0 mv2 t-small">
+                          {review.verifiedPurchaser ? (
+                            <li className="dib mr5">
+                              <IconSuccess />{' '}
+                              <FormattedMessage id="store/reviews.list.verifiedPurchaser" />
+                            </li>
+                          ) : null}
+                          <span className={`${handles.reviewDate}`}>
+                            <FormattedMessage id="store/reviews.list.submitted" />{' '}
+                            {getTimeAgo(review.reviewDateTime)}
+                          </span>
+                        </ul>
+                        <p className={`${handles.reviewText}`}>{review.text}</p>
+                      </Collapsible>
+                    )}
+                  </div>
+                  )
+                }
+                else{
+                  return
+                }
+              }else{
+                return (
+                  <div
+                    key={i}
+                    className={`${handles.reviewComment} review__comment bw2 bb b--muted-5 mb5 pb4`}
+                  >
+                    <Helmet>
+                      <script type="application/ld+json">
+                        {JSON.stringify({
+                          '@context': 'http://schema.org',
+                          '@type': 'Product',
+                          review: {
+                            '@type': 'Review',
+                            reviewRating: {
+                              ratingValue: review.rating.toString(),
+                              bestRating: '5',
+                            },
+                            author: {
+                              '@type': 'Person',
+                              name:
+                                review.reviewerName ||
+                                intl.formatMessage(messages.anonymous),
+                            },
+                            datePublished: review.reviewDateTime,
+                            reviewBody: review.text,
+                          },
+                          name: productName,
+                        })}
+                      </script>
+                    </Helmet>
+                    {state.settings.defaultOpen ? (
+                      <div>
+                        <span className={`${handles.reviewUsername}`}>
+                          {review.reviewerName || intl.formatMessage(messages.anonymous)}
+                        </span>
+                        <div className={`${handles.reviewCommentRating} review__comment--rating t-heading-5`} >
+                          <Stars rating={review.rating} /> {` `}
+                          <span className={`${handles.reviewCommentUser} review__comment--user lh-copy mw9 t-heading-5 mt0 mb2`} >
+                            {review.title}
+                          </span>
+                        </div>
+                        <ul className="pa0 mv2 t-small">
+                          {review.verifiedPurchaser ? (
+                            <li className="dib mr5">
+                              <IconSuccess />{' '}
+                              <FormattedMessage id="store/reviews.list.verifiedPurchaser" />
+                            </li>
+                          ) : null}
+                          <span className={`${handles.reviewDate}`}>
+                            <FormattedMessage id="store/reviews.list.submitted" />{' '}
+                            {getTimeAgo(review.reviewDateTime)}
+                          </span>
+                        </ul>
+                        <p className={`${handles.reviewText}`}>
+                          <ShowMore
+                            lines={3}
+                            more="Show more"
+                            less="Show less"
+                            anchorClass=""
+                          >
+                            {review.text}
+                          </ShowMore>
+                        </p>
+                      </div>
+                    ) : (
+                      <Collapsible
+                        header={
+                          <div className={`${handles.reviewCommentRating} review__comment--rating t-heading-5`} >
+                            <Stars rating={review.rating} /> {` `}
+                            <span className={`${handles.reviewCommentUser} review__comment--user lh-copy mw9 t-heading-5 mt0 mb2`} >
+                              {review.title}
+                            </span>
+                          </div>
+                        }
+                        onClick={() => {
+                          dispatch({
+                            type: 'TOGGLE_REVIEW_ACCORDION',
+                            args: {
+                              reviewNumber: i,
+                            },
+                          })
+                        }}
+                        isOpen={state.openReviews.includes(i)}
+                      >
+                        <span className={`${handles.reviewUsername}`}>
+                          {review.reviewerName || intl.formatMessage(messages.anonymous)}
+                        </span>
+                        <ul className="pa0 mv2 t-small">
+                          {review.verifiedPurchaser ? (
+                            <li className="dib mr5">
+                              <IconSuccess />{' '}
+                              <FormattedMessage id="store/reviews.list.verifiedPurchaser" />
+                            </li>
+                          ) : null}
+                          <span className={`${handles.reviewDate}`}>
+                            <FormattedMessage id="store/reviews.list.submitted" />{' '}
+                            {getTimeAgo(review.reviewDateTime)}
+                          </span>
+                        </ul>
+                        <p className={`${handles.reviewText}`}>{review.text}</p>
+                      </Collapsible>
+                    )}
+                  </div>
+                )
+              }
             })}
             <div className="review__paging">
               <Pagination
