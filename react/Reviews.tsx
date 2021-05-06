@@ -423,7 +423,8 @@ const CSS_HANDLES = [
   'noReviewsText',
   'reviewBarCheckBox',
   'reviewBarTotal',
-  'reviewBarInput'
+  'reviewBarInput',
+  'reviewBarForm'
 ] as const
 
 const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
@@ -722,7 +723,7 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
             </div>
             <div className={`${handles.reviewBarContainer}`} >
               <div className={`${handles.reviewBarCheckBox}`}>
-                <form>
+                <form className={`${handles.reviewBarForm}`}>
                   <input className={`${handles.reviewBarInput}`} type="radio" name="mark" id="5" value="5" onChange={()=>dispatch({type: "SET_FILTER", args:{filter:5}}) }/>
                   <input className={`${handles.reviewBarInput}`} type="radio" name="mark" id="4" value="4" onChange={()=>dispatch({type: "SET_FILTER", args:{filter:4}}) }/>
                   <input className={`${handles.reviewBarInput}`} type="radio" name="mark" id="3" value="3" onChange={()=>dispatch({type: "SET_FILTER", args:{filter:3}}) }/>
