@@ -165,7 +165,7 @@ type ReducerActions =
   | { type: 'SET_AVERAGE'; args: { average: number } }
   | { type: 'SET_SETTINGS'; args: { settings: AppSettings } }
   | { type: 'SET_AUTHENTICATED'; args: { authenticated: boolean } }
-  | { type: 'SET_FILTER'; args: {filter : number}}
+  | { type: 'SET_FILTER'; args: {filter : number | null}}
 
 const initialState = {
   sort: 'ReviewDateTime:desc',
@@ -424,7 +424,8 @@ const CSS_HANDLES = [
   'reviewBarCheckBox',
   'reviewBarTotal',
   'reviewBarInput',
-  'reviewBarForm'
+  'reviewBarForm',
+  'reviewBarInputActive'
 ] as const
 
 const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
@@ -435,6 +436,31 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
   const { productId, productName }: Product = product || {}
 
   const [state, dispatch] = useReducer(reducer, initialState)
+  let filterClassAvailable : Boolean[] = [false, false, false, false, false];
+  const handleToggle = (value: number): void =>{
+    // dispatch({type: "SET_FILTER", args:{filter: value}})
+    // filterClassAvailable= [false, false, false, false, false]
+    // filterClassAvailable[value - 1] = !filterClassAvailable[value - 1];
+    if(state.filter === null){
+      dispatch({type: "SET_FILTER", args:{filter: value}})
+      filterClassAvailable[value - 1] = true
+      return
+    }
+    if(state.filter !== null){
+      if(value === state.filter){
+        console.log('OOOOOOOOPS')
+        console.log(filterClassAvailable)
+        filterClassAvailable[value - 1] = !filterClassAvailable[value - 1];
+        console.log(filterClassAvailable)
+        dispatch({type: "SET_FILTER", args: {filter: null}})
+        return
+      }
+      dispatch({type: "SET_FILTER", args: {filter: value}})
+      filterClassAvailable = [false, false, false, false, false]
+      filterClassAvailable[value - 1] = true
+      return
+    }
+  }
 
   const options = [
     {
@@ -723,13 +749,11 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
             </div>
             <div className={`${handles.reviewBarContainer}`} >
               <div className={`${handles.reviewBarCheckBox}`}>
-                <form className={`${handles.reviewBarForm}`}>
-                  <input className={`${handles.reviewBarInput}`} type="radio" name="mark" id="5" value="5" onChange={()=>dispatch({type: "SET_FILTER", args:{filter:5}}) }/>
-                  <input className={`${handles.reviewBarInput}`} type="radio" name="mark" id="4" value="4" onChange={()=>dispatch({type: "SET_FILTER", args:{filter:4}}) }/>
-                  <input className={`${handles.reviewBarInput}`} type="radio" name="mark" id="3" value="3" onChange={()=>dispatch({type: "SET_FILTER", args:{filter:3}}) }/>
-                  <input className={`${handles.reviewBarInput}`} type="radio" name="mark" id="2" value="2" onChange={()=>dispatch({type: "SET_FILTER", args:{filter:2}}) }/>
-                  <input className={`${handles.reviewBarInput}`} type="radio" name="mark" id="1" value="1" onChange={()=>dispatch({type: "SET_FILTER", args:{filter:1}}) }/>
-                </form>
+                <div className={filterClassAvailable[4] ? `${handles.reviewBarInput} ${handles.reviewBarInputActive}` : `${handles.reviewBarInput}`} onClick={()=>handleToggle(5)}></div>
+                <div className={filterClassAvailable[3] ? `${handles.reviewBarInput} ${handles.reviewBarInputActive}` : `${handles.reviewBarInput}`} onClick={()=>handleToggle(4)}></div>
+                <div className={filterClassAvailable[2] ? `${handles.reviewBarInput} ${handles.reviewBarInputActive}` : `${handles.reviewBarInput}`} onClick={()=>handleToggle(3)}></div>
+                <div className={filterClassAvailable[1] ? `${handles.reviewBarInput} ${handles.reviewBarInputActive}` : `${handles.reviewBarInput}`} onClick={()=>handleToggle(2)}></div>
+                <div className={filterClassAvailable[0] ? `${handles.reviewBarInput} ${handles.reviewBarInputActive}` : `${handles.reviewBarInput}`} onClick={()=>handleToggle(1)}></div>
               </div>
               <div className={`${handles.reviewBarTotal}`}>
                 <div className={`${handles.reviewBar}`}>
