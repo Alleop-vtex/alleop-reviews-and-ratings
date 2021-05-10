@@ -4,6 +4,7 @@ import React, {
   useContext,
   useEffect,
   useReducer,
+  useState
 } from 'react'
 import { Helmet } from 'react-helmet'
 import ApolloClient, { ApolloQueryResult } from 'apollo-client'
@@ -436,28 +437,35 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
   const { productId, productName }: Product = product || {}
 
   const [state, dispatch] = useReducer(reducer, initialState)
-  let filterClassAvailable : Boolean[] = [false, false, false, false, false];
+  //let filterClassAvailable : Boolean[] = [false, false, false, false, false];
+  let [filterClassState, setFilterClassState] = useState<Boolean[]>([false, false, false, false, false])
   const handleToggle = (value: number): void =>{
     // dispatch({type: "SET_FILTER", args:{filter: value}})
     // filterClassAvailable= [false, false, false, false, false]
     // filterClassAvailable[value - 1] = !filterClassAvailable[value - 1];
     if(state.filter === null){
       dispatch({type: "SET_FILTER", args:{filter: value}})
-      filterClassAvailable[value - 1] = true
+      let filterClass = [false, false, false, false, false]
+      filterClass[value -1] = true
+      setFilterClassState(filterClass)
+      //filterClassAvailable[value - 1] = true
       return
     }
     if(state.filter !== null){
       if(value === state.filter){
         console.log('OOOOOOOOPS')
-        console.log(filterClassAvailable)
-        filterClassAvailable[value - 1] = !filterClassAvailable[value - 1];
-        console.log(filterClassAvailable)
+        //console.log(filterClassAvailable)
+        let filterClass = filterClassState;
+        filterClass[value - 1] = !filterClass[value - 1];
+        setFilterClassState(filterClass)
+        //console.log(filterClassAvailable)
         dispatch({type: "SET_FILTER", args: {filter: null}})
         return
       }
       dispatch({type: "SET_FILTER", args: {filter: value}})
-      filterClassAvailable = [false, false, false, false, false]
-      filterClassAvailable[value - 1] = true
+      let filterClass = [false, false, false, false, false]
+      filterClass[value - 1] = true
+      setFilterClassState(filterClass)
       return
     }
   }
@@ -749,11 +757,11 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
             </div>
             <div className={`${handles.reviewBarContainer}`} >
               <div className={`${handles.reviewBarCheckBox}`}>
-                <div className={filterClassAvailable[4] ? `${handles.reviewBarInput} ${handles.reviewBarInputActive}` : `${handles.reviewBarInput}`} onClick={()=>handleToggle(5)}></div>
-                <div className={filterClassAvailable[3] ? `${handles.reviewBarInput} ${handles.reviewBarInputActive}` : `${handles.reviewBarInput}`} onClick={()=>handleToggle(4)}></div>
-                <div className={filterClassAvailable[2] ? `${handles.reviewBarInput} ${handles.reviewBarInputActive}` : `${handles.reviewBarInput}`} onClick={()=>handleToggle(3)}></div>
-                <div className={filterClassAvailable[1] ? `${handles.reviewBarInput} ${handles.reviewBarInputActive}` : `${handles.reviewBarInput}`} onClick={()=>handleToggle(2)}></div>
-                <div className={filterClassAvailable[0] ? `${handles.reviewBarInput} ${handles.reviewBarInputActive}` : `${handles.reviewBarInput}`} onClick={()=>handleToggle(1)}></div>
+                <div className={filterClassState[4] ? `${handles.reviewBarInput} ${handles.reviewBarInputActive}` : `${handles.reviewBarInput}`} onClick={()=>handleToggle(5)}></div>
+                <div className={filterClassState[3] ? `${handles.reviewBarInput} ${handles.reviewBarInputActive}` : `${handles.reviewBarInput}`} onClick={()=>handleToggle(4)}></div>
+                <div className={filterClassState[2] ? `${handles.reviewBarInput} ${handles.reviewBarInputActive}` : `${handles.reviewBarInput}`} onClick={()=>handleToggle(3)}></div>
+                <div className={filterClassState[1] ? `${handles.reviewBarInput} ${handles.reviewBarInputActive}` : `${handles.reviewBarInput}`} onClick={()=>handleToggle(2)}></div>
+                <div className={filterClassState[0] ? `${handles.reviewBarInput} ${handles.reviewBarInputActive}` : `${handles.reviewBarInput}`} onClick={()=>handleToggle(1)}></div>
               </div>
               <div className={`${handles.reviewBarTotal}`}>
                 <div className={`${handles.reviewBar}`}>

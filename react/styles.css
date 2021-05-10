@@ -19,3 +19,14 @@
 .reviewSubmittedHolder{
     display: flex;
 }
+.reeviewBarCheckBox{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+.reeviewBarInput{
+    border: 1px solid black;
+}
+.reeviewBarInputActive{
+    background: green;
+}
