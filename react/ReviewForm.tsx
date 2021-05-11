@@ -373,7 +373,7 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
           {/* {<FormattedMessage id="store/reviews.form.title" />} */}
         </h3>
         {state.reviewSubmitted ? (
-          <div></div>           
+          null          
         ) : state.alreadySubmitted ? (
           <div className="c-danger t-small mt3 lh-title">
             <FormattedMessage id="store/reviews.form.alreadySubmitted" />

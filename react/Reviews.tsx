@@ -438,7 +438,9 @@ const CSS_HANDLES = [
   'reviewSubmittedHolder',
   'reviewSubmittedImage,',
   'reviewSubmittedImage',
-  'reviewSubmittedText'
+  'reviewSubmittedText',
+  'reviewSubmittedTextHeading',
+  'reviewSubmittedTextParagraph'
 
 ] as const
 
@@ -1111,18 +1113,16 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
             {state.submitted ? 
             (
               <div className={`${handles.reviewSubmittedHolder}`}>
-            <div className={`${handles.reviewSubmittedImage}`}>
-              {/* <img src="public/metadata/thank-you-review-section.svg" alt=""/> */}
-            </div>
-          
-
-            <div className={`${handles.reviewSubmittedText}`}>
-              <h5>Благодарим ти, че сподели мнението си!</h5>
-              <p>
-                Всяко ревю се разглежда от администратор преди да бъде публикувано в сайта.
-              </p>
-            </div>
-          </div>
+                <div className={`${handles.reviewSubmittedImage}`}>
+                  {/* <img src="public/metadata/thank-you-review-section.svg" alt=""/> */}
+                </div>
+                <div className={`${handles.reviewSubmittedText}`}>
+                  <h5 className={`${handles.reviewSubmittedTextHeading}`}>Благодарим ти, че сподели мнението си!</h5>
+                  <p className={`${handles.reviewSubmittedTextParagraph}`}> 
+                    Всяко ревю се разглежда от администратор преди да бъде публикувано в сайта.
+                  </p>
+                </div>
+              </div>
             )
             : 
             (
