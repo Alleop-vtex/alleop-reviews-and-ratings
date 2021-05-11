@@ -7,6 +7,7 @@ const StarPicker: FunctionComponent<StarPickerProps> = ({
   onStarClick,
   rating,
   label,
+  additionalClass = ''
 }) => {
   // const [rating, setRating] = useState(3)
   const stars = useMemo(
@@ -46,7 +47,7 @@ const StarPicker: FunctionComponent<StarPickerProps> = ({
   //   marginLeft: -9999,
   // }
 
-  const labelClasses = 'vtex-input__label db mb3 w-100 c-on-base '
+  const labelClasses = 'vtex-input__label db mb3 w-100 c-on-base ' + additionalClass
 
   return (
     <label className={`${styles.starpicker} c-action-primary`}>
@@ -74,6 +75,7 @@ const StarPicker: FunctionComponent<StarPickerProps> = ({
 interface StarPickerProps {
   label?: string
   // onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  additionalClass?: string
   rating: number
   onStarClick: (
     event:

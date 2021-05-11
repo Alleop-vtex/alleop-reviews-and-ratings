@@ -1,8 +1,10 @@
 {
     "store/reviews.list.emptyState": "Този продукт все още няма ревюта",
-    "store/reviews.list.subHeading": "Бъди първият написал отзив за него. По скала от 1 до 5 как би го оценил.",
+    "store/reviews.list.subHeading": "Бъди първият написал отзив за него. По скала от 1 до 5 как би го оценил?",
     "store/reviews.list.writeReviewLinkPt1": "Моля, ",
     "store/reviews.list.writeReviewLinkPt2": "за да напишешь своя отзив",
-    "store/reviews.list.login": "влез в профила си, "
+    "store/reviews.list.login": "влез в профила си, ",
+    "store/reviews.form.submit": "Добави ревю",
+    "store/reviews.form.label.rating": "Оценка"
 
 }

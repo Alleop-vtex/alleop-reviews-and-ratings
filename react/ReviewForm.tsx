@@ -13,7 +13,7 @@ import {
 import flowRight from 'lodash.flowright'
 import path from 'ramda/es/path'
 import { useCssHandles } from 'vtex.css-handles'
-import { Card, Input, Button, Textarea } from 'vtex.styleguide'
+import { Card, Input, Textarea } from 'vtex.styleguide'
 
 import getOrders from './queries/orders.graphql'
 import NewReview from '../graphql/newReview.graphql'
@@ -35,6 +35,7 @@ interface AppSettings {
 interface Props {
   client: ApolloClient<NormalizedCacheObject>
   settings?: AppSettings
+  cb: Function
 }
 
 interface HasShopperReviewedData {
@@ -210,12 +211,21 @@ const messages = defineMessages({
   },
 })
 
-const CSS_HANDLES = ['formContainer','reviewSubmittedText', 'reviewSubmittedImage', 'reviewSubmittedHolder'] as const
+const CSS_HANDLES = [
+  'formContainer',
+  'reviewSubmittedText',
+  'reviewSubmittedImage',
+  'reviewSubmittedHolder',
+  'sendReviewButton',
+  'termsOfUSe',
+  'noReviewsStarPicker'
+  ] as const
 
 export const ReviewForm: FC<InjectedIntlProps & Props> = ({
   intl,
   client,
   settings,
+  cb
 }) => {
   const handles = useCssHandles(CSS_HANDLES)
 
@@ -306,7 +316,7 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
     })
   }, [client, productId])
 
-  async function submitReview() {
+  async function submitReview(cb:Function) {
     if (state.validation.hasValidEmail) {
       client
         .query({
@@ -347,6 +357,7 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
           dispatch({
             type: 'SET_SUBMITTED',
           })
+          cb()
         })
     } else {
       dispatch({
@@ -362,22 +373,7 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
           {/* {<FormattedMessage id="store/reviews.form.title" />} */}
         </h3>
         {state.reviewSubmitted ? (
-          
-            
-          <div className={`${handles.reviewSubmittedHolder}`}>
-            <div className={`${handles.reviewSubmittedImage}`}>
-              {/* <img src="public/metadata/thank-you-review-section.svg" alt=""/> */}
-            </div>
-          
-
-            <div className={`${handles.reviewSubmittedText}`}>
-              <h5>Благодарим ти, че сподели мнението си!</h5>
-              <p>
-                Всяко ревю се разглежда от администратор преди да бъде публикувано в сайта.
-              </p>
-            </div>
-          </div>
-            
+          <div></div>           
         ) : state.alreadySubmitted ? (
           <div className="c-danger t-small mt3 lh-title">
             <FormattedMessage id="store/reviews.form.alreadySubmitted" />
@@ -388,6 +384,7 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
             <div className="mv3">
               <StarPicker
                 label={intl.formatMessage(messages.ratingLabel)}
+                additionalClass = {`${handles.noReviewsStarPicker}`}
                 rating={state.rating}
                 onStarClick={(_, index: number) => {
                   dispatch({
@@ -515,15 +512,15 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
                     </div>
                   )}
 
-                <div className="termsOfUse">
+                <div className={`${handles.termsOfUSe}`}>
                   <p>
                     C публикуването на ревюто се съгласяваш с <a href={'#'} className="termOfUseLink">Условията за ползване</a> на сайта
                   </p>
                 </div>
 
-                <Button variation="primary" className="sendReviewButton" onClick={() => submitReview()}>
+                <div className={`${handles.sendReviewButton}`} onClick={() => submitReview(cb)}>
                   <FormattedMessage id="store/reviews.form.submit" />
-                </Button>
+                </div>
               </Fragment>
             </div>
           </form>

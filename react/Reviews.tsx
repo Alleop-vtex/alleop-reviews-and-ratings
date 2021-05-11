@@ -142,6 +142,7 @@ interface State {
   settings: AppSettings
   userAuthenticated: boolean
   filter: number | null
+  submitted: Boolean
 }
 
 declare let global: {
@@ -167,6 +168,7 @@ type ReducerActions =
   | { type: 'SET_SETTINGS'; args: { settings: AppSettings } }
   | { type: 'SET_AUTHENTICATED'; args: { authenticated: boolean } }
   | { type: 'SET_FILTER'; args: {filter : number | null}}
+  | { type: 'SET_SUBMITTED'}
 
 const initialState = {
   sort: 'ReviewDateTime:desc',
@@ -193,7 +195,8 @@ const initialState = {
     useLocation: false,
   },
   userAuthenticated: false,
-  filter: null
+  filter: null,
+  submitted: false
 }
 
 const reducer = (state: State, action: ReducerActions) => {
@@ -300,6 +303,11 @@ const reducer = (state: State, action: ReducerActions) => {
       return{
         ...state,
         filter: action.args.filter,
+      }
+    case 'SET_SUBMITTED':
+      return{
+        ...state,
+        submitted: true
       }
     default:
       return state
@@ -426,7 +434,12 @@ const CSS_HANDLES = [
   'reviewBarTotal',
   'reviewBarInput',
   'reviewBarForm',
-  'reviewBarInputActive'
+  'reviewBarInputActive',
+  'reviewSubmittedHolder',
+  'reviewSubmittedImage,',
+  'reviewSubmittedImage',
+  'reviewSubmittedText'
+
 ] as const
 
 const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
@@ -453,12 +466,9 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
     }
     if(state.filter !== null){
       if(value === state.filter){
-        console.log('OOOOOOOOPS')
-        //console.log(filterClassAvailable)
         let filterClass = filterClassState;
         filterClass[value - 1] = !filterClass[value - 1];
         setFilterClassState(filterClass)
-        //console.log(filterClassAvailable)
         dispatch({type: "SET_FILTER", args: {filter: null}})
         return
       }
@@ -468,6 +478,10 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
       setFilterClassState(filterClass)
       return
     }
+  }
+  const setSubmitted = () =>{
+    dispatch({type : 'SET_SUBMITTED'})
+    console.log(state.submitted)
   }
 
   const options = [
@@ -1094,37 +1108,59 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
           </Fragment>
         ) : (
           <div className={`${handles.noReviews}`}>
-            <h3 className={`${handles.noReviewsText}`}>
-              <FormattedMessage id="store/reviews.list.emptyState" />
-            </h3>
-            <div className={`${handles.writeReviewFlex}`}>
-              <h5 className={`${handles.writeReviewSubheading}`} >
-                <FormattedMessage id="store/reviews.list.subHeading"/>
-              </h5>
-              <div className={`${handles.writeReviewContainer} vtex-writeReviewContainer--noReviews`} >
-                {(state.settings && state.settings.allowAnonymousReviews) ||
-                (state.settings &&
-                  !state.settings.allowAnonymousReviews &&
-                  state.userAuthenticated) ? (
-                  <div> {/*.writeReviewButton*/}
-                    <ReviewForm settings={state.settings} />
-                  </div>
-                ) : (
-                  <div>
-                    <FormattedMessage id="store/reviews.list.writeReviewLinkPt1" />
-                    <Link
-                      page="store.login"
-                      query={`returnUrl=${encodeURIComponent(url)}`}
-                      className={`${handles.loginLink} h1 w2 tc flex items-center w-100-s h-100-s pa4-s`}
-                    >
-                      <FormattedMessage id="store/reviews.list.login" />
-                    </Link>
-                    <FormattedMessage id="store/reviews.list.writeReviewLinkPt2" />
-                  </div>
-                  
-                )}
-              </div>
+            {state.submitted ? 
+            (
+              <div className={`${handles.reviewSubmittedHolder}`}>
+            <div className={`${handles.reviewSubmittedImage}`}>
+              {/* <img src="public/metadata/thank-you-review-section.svg" alt=""/> */}
             </div>
+          
+
+            <div className={`${handles.reviewSubmittedText}`}>
+              <h5>Благодарим ти, че сподели мнението си!</h5>
+              <p>
+                Всяко ревю се разглежда от администратор преди да бъде публикувано в сайта.
+              </p>
+            </div>
+          </div>
+            )
+            : 
+            (
+              <div>
+                <h3 className={`${handles.noReviewsText}`}>
+                  <FormattedMessage id="store/reviews.list.emptyState" />
+                </h3>
+                <div className={`${handles.writeReviewFlex}`}>
+                  <h5 className={`${handles.writeReviewSubheading}`} >
+                    <FormattedMessage id="store/reviews.list.subHeading"/>
+                  </h5>
+                  <div className={`${handles.writeReviewContainer} vtex-writeReviewContainer--noReviews`} >
+                    {(state.settings && state.settings.allowAnonymousReviews) ||
+                    (state.settings &&
+                      !state.settings.allowAnonymousReviews &&
+                      state.userAuthenticated) ? (
+                      <div> {/*.writeReviewButton*/}
+                        <ReviewForm settings={state.settings} cb={setSubmitted}/>
+                      </div>
+                    ) : (
+                      <div>
+                        <FormattedMessage id="store/reviews.list.writeReviewLinkPt1" />
+                        <Link
+                          page="store.login"
+                          query={`returnUrl=${encodeURIComponent(url)}`}
+                          className={`${handles.loginLink} h1 w2 tc flex items-center w-100-s h-100-s pa4-s`}
+                        >
+                          <FormattedMessage id="store/reviews.list.login" />
+                        </Link>
+                        <FormattedMessage id="store/reviews.list.writeReviewLinkPt2" />
+                      </div>
+                      
+                    )}
+                  </div>
+                </div>
+              </div>
+            )
+            }
           </div>
         )}
       </div>
