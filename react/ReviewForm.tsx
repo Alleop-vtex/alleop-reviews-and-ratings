@@ -498,7 +498,7 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
                 resize={"none"}
               />
             </div>
-            <div className={`mv3 ${handles.formSection}`}>
+            <div className={`mv3`}>
               <Fragment>
                 {state.showValidationErrors &&
                   (!state.validation.hasName ||
