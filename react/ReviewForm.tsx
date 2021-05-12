@@ -218,7 +218,8 @@ const CSS_HANDLES = [
   'reviewSubmittedHolder',
   'sendReviewButton',
   'termsOfUSe',
-  'noReviewsStarPicker'
+  'noReviewsStarPicker',
+  'formSection'
   ] as const
 
 export const ReviewForm: FC<InjectedIntlProps & Props> = ({
@@ -369,9 +370,6 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
   return (
     <div className={`${handles.formContainer} bg-muted-5 pa5 mt2`}>
       <Card>
-        <h3>
-          {/* {<FormattedMessage id="store/reviews.form.title" />} */}
-        </h3>
         {state.reviewSubmitted ? (
           null          
         ) : state.alreadySubmitted ? (
@@ -381,7 +379,7 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
         ) : (
           <form>
 
-            <div className="mv3">
+            <div className={`mv3 ${handles.formSection}`}>
               <StarPicker
                 label={intl.formatMessage(messages.ratingLabel)}
                 additionalClass = {`${handles.noReviewsStarPicker}`}
@@ -397,7 +395,7 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
               />
             </div>
            
-            <div className="mv3">
+            <div className={`mv3 ${handles.formSection}`}>
               <Input
                 label={intl.formatMessage(messages.nameLabel)}
                 size="large"
@@ -418,7 +416,7 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
               />
             </div>
 
-            <div className="mv3">
+            <div className={`mv3 ${handles.formSection}`}>
               <Input
                 label={intl.formatMessage(messages.reviewTitleLabel)}
                 size="large"
@@ -441,7 +439,7 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
             </div>
 
             {settings?.useLocation && (
-              <div className="mv3">
+              <div className={`mv3 ${handles.formSection}`}>
                 <Input
                   label={intl.formatMessage(messages.locationLabel)}
                   size="large"
@@ -458,7 +456,7 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
               </div>
             )}
             {settings?.allowAnonymousReviews && !state.userAuthenticated && (
-              <div className="mv3">
+              <div className={`mv3 ${handles.formSection}`}>
                 <Input
                   label={intl.formatMessage(messages.emailLabel)}
                   size="large"
@@ -480,7 +478,7 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
                 />
               </div>
             )}
-            <div className="mv3">
+            <div className={`mv3 ${handles.formSection}`}>
               <Textarea
                 value={state.text}
                 onChange={(event: React.FormEvent<HTMLTextAreaElement>) =>
@@ -500,7 +498,7 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
                 resize={"none"}
               />
             </div>
-            <div className="mv3">
+            <div className={`mv3 ${handles.formSection}`}>
               <Fragment>
                 {state.showValidationErrors &&
                   (!state.validation.hasName ||

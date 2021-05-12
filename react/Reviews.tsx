@@ -436,7 +436,7 @@ const CSS_HANDLES = [
   'reviewBarForm',
   'reviewBarInputActive',
   'reviewSubmittedHolder',
-  'reviewSubmittedImage,',
+  'reviewSubmittedImage',
   'reviewSubmittedImage',
   'reviewSubmittedText',
   'reviewSubmittedTextHeading',

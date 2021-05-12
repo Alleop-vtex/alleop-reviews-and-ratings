@@ -52,7 +52,7 @@ const StarPicker: FunctionComponent<StarPickerProps> = ({
   return (
     <label className={`${styles.starpicker} c-action-primary`}>
       {label && <span className={labelClasses}>{label}</span>}
-      <span className="t-heading-4 pointer">
+      <span className={`t-heading-4 pointer ${additionalClass}`}>
         {stars.map((value, index) => (
           <Star
             key={index}
