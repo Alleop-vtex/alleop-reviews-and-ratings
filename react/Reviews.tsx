@@ -399,6 +399,22 @@ const messages = defineMessages({
     id: 'store/reviews.list.pagination.textOf',
     defaultMessage: 'of',
   },
+  reviewCountSing: {
+    id: 'store/reviews.list.review-number-sing',
+    defaultMessage: 'review',
+  },
+  reviewCountPlural: {
+    id: 'store/reviews.list.review-number-plural',
+    defaultMessage: 'reviews',
+  },
+  reviewRequestHeading: {
+    id: 'store/reviews.list.reviewRequestHeading',
+    defaultMessage: "You have something to say about this product?",
+  }, 
+  reviewRequestRate: {
+    id: 'store/reviews.list.reviewRequestRate',
+    defaultMessage: "Do not hesitate to tell us what you really think. From 1 to 5 how would you rate it?",
+  }
 })
 
 const CSS_HANDLES = [
@@ -769,7 +785,8 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
                 <Stars rating={state.average} />
               </div>
               <span className={`${handles.reviewsRatingCount} review__rating--count dib v-mid`} >
-                ({state.total} reviews)
+                {/*number of reviews*/}
+                ({state.total === 1 && `${state.total} ${intl.formatMessage(messages.reviewCountSing)}` || `${state.total} ${intl.formatMessage(messages.reviewCountPlural)}`}) 
               </span>
             </div>
             <div className={`${handles.reviewBarContainer}`} >
@@ -819,8 +836,8 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
               </div>
             </div>
             <div className={`${handles.writeReviewFlex}`} >
-              { <h3 className={`${handles.writeReviewHeading}`} >You have something to say about this product?</h3> /*hide it*/}
-              <h5 className={`${handles.writeReviewSubheading}`} >Do not hesitate to tell us what you really think. From 1 to 5 how would you rate it?</h5>
+              { <h3 className={`${handles.writeReviewHeading}`} >{intl.formatMessage(messages.reviewRequestHeading)}</h3> /*hide it*/}
+              <h5 className={`${handles.writeReviewSubheading}`} >{intl.formatMessage(messages.reviewRequestRate)}</h5>
               <div className={`${handles.writeReviewContainer}`} >
                 {(state.settings && state.settings.allowAnonymousReviews) ||
                 (state.settings &&
@@ -829,7 +846,7 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
                   <Collapsible
                     header={
                       <span className={`${handles.writeReviewButton}`} >
-                        <FormattedMessage id="store/reviews.list.writeReview" />
+                        <FormattedMessage id="store/reviews.form.submit" />
                       </span>
                     }
                     onClick={() => {

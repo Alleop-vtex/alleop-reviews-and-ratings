@@ -5,6 +5,9 @@
     "store/reviews.list.writeReviewLinkPt2": "за да напишешь своя отзив",
     "store/reviews.list.login": "влез в профила си, ",
     "store/reviews.form.submit": "Добави ревю",
-    "store/reviews.form.label.rating": "Оценка"
-
+    "store/reviews.form.label.rating": "Оценка",
+    "store/reviews.list.review-number-plural": "ревюта",
+    "store/reviews.list.review-number-sing": "ревю",
+    "store/reviews.list.reviewRequestHeading" : "Искаш да споделиш нещо за този продукт?",
+    "store/reviews.list.reviewRequestRate"   : "Не се притеснявай да ни кажеш какво мислиш. От 1 до 5 каква оценка би дал?"
 }
