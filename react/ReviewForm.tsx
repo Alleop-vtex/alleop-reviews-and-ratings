@@ -36,6 +36,8 @@ interface Props {
   client: ApolloClient<NormalizedCacheObject>
   settings?: AppSettings
   cb: Function
+  rating: number,
+  starsSendCb: Function 
 }
 
 interface HasShopperReviewedData {
@@ -43,7 +45,7 @@ interface HasShopperReviewedData {
 }
 
 interface State {
-  rating: number
+  rating: number 
   title: string
   text: string
   location: string | null
@@ -226,13 +228,14 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
   intl,
   client,
   settings,
-  cb
+  cb, 
+  starsSendCb,
+  rating,
 }) => {
   const handles = useCssHandles(CSS_HANDLES)
-
   const { product } = useContext(ProductContext) as any
   const { productId }: Product = product || {}
-
+  console.log(rating)
   const [state, dispatch] = useReducer(reducer, initialState)
 
   useEffect(() => {
@@ -367,7 +370,11 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
     }
   }
 
+ 
+  state.rating !== rating && (state.rating = rating )
+  
   return (
+  
     <div className={`${handles.formContainer} bg-muted-5 pa5 mt2`}>
       <Card>
         {state.reviewSubmitted ? (
@@ -380,6 +387,7 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
           <form>
 
             <div className={`mv3 ${handles.formSection}`}>
+              
               <StarPicker
                 label={intl.formatMessage(messages.ratingLabel)}
                 additionalClass = {`${handles.noReviewsStarPicker}`}
@@ -391,6 +399,7 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
                       rating: index + 1,
                     },
                   })
+                  starsSendCb(index)
                 }}
               />
             </div>
