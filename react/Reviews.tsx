@@ -515,7 +515,6 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
   }
   const setSubmitted = () =>{
     dispatch({type : 'SET_SUBMITTED'})
-    console.log(state.submitted)
   }
 
   const options = [

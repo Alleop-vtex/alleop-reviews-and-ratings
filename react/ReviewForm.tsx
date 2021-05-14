@@ -75,7 +75,7 @@ type ReducerActions =
   | { type: 'SET_ID'; args: { id: string } }
   | { type: 'SET_AUTHENTICATED'; args: { authenticated: boolean } }
   | { type: 'SET_VERIFIED' }
-  | { type: 'SET_ALREADY_SUBMITTED' }
+  | { type: 'SET_ALREADY_SUBMITTED' ; args: {alreadySubmitted: boolean} }
   | { type: 'SET_SUBMITTED' }
   | { type: 'SHOW_VALIDATION' }
 
@@ -166,7 +166,7 @@ const reducer = (state: State, action: ReducerActions) => {
     case 'SET_ALREADY_SUBMITTED':
       return {
         ...state,
-        alreadySubmitted: true,
+        alreadySubmitted: action.args.alreadySubmitted,
       }
     case 'SHOW_VALIDATION':
       return {
@@ -235,7 +235,6 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
   const handles = useCssHandles(CSS_HANDLES)
   const { product } = useContext(ProductContext) as any
   const { productId }: Product = product || {}
-  console.log(rating)
   const [state, dispatch] = useReducer(reducer, initialState)
 
   useEffect(() => {
@@ -290,8 +289,18 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
           if (result.data.hasShopperReviewed) {
             dispatch({
               type: 'SET_ALREADY_SUBMITTED',
+              args: {
+                alreadySubmitted: true
+              }
             })
-          }
+          } else  {
+            dispatch({
+              type: 'SET_ALREADY_SUBMITTED',
+              args: {
+                alreadySubmitted: false
+              }
+            })
+          } 
         })
 
       client
@@ -331,8 +340,18 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
           if (result.data.hasShopperReviewed) {
             dispatch({
               type: 'SET_ALREADY_SUBMITTED',
+              args: {
+                alreadySubmitted: true
+              }
             })
-          }
+          } else  {
+            dispatch({
+              type: 'SET_ALREADY_SUBMITTED',
+              args: {
+                alreadySubmitted: false
+              }
+            })
+          } 
         })
     }
     if (
@@ -371,7 +390,7 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
   }
 
  
-  state.rating !== rating && (state.rating = rating )
+  rating && state.rating !== rating && (state.rating = rating )
   
   return (
   
