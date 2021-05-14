@@ -30,6 +30,7 @@ import {
   // Button,
 } from 'vtex.styleguide'
 
+import StarPicker from './components/StarPicker'
 import Stars from './components/Stars'
 import ReviewForm from './ReviewForm'
 import AppSettings from '../graphql/appSettings.graphql'
@@ -40,6 +41,7 @@ import TotalReviewsByProductId4 from '../graphql/totalReviewsByProductId4.graphq
 import TotalReviewsByProductId3 from '../graphql/totalReviewsByProductId3.graphql'
 import TotalReviewsByProductId2 from '../graphql/totalReviewsByProductId2.graphql'
 import TotalReviewsByProductId1 from '../graphql/totalReviewsByProductId1.graphql'
+//import { number } from 'prop-types'
 
 interface Product {
   productId: string
@@ -124,6 +126,7 @@ interface AppSettings {
 }
 
 interface State {
+  rating: number,
   sort: string
   from: number
   to: number
@@ -153,6 +156,7 @@ declare let global: {
 type ReducerActions =
   | { type: 'SET_NEXT_PAGE' }
   | { type: 'SET_PREV_PAGE' }
+  | { type: 'SET_RATING'; args: { rating: number } }
   | { type: 'TOGGLE_REVIEW_FORM' }
   | { type: 'TOGGLE_REVIEW_ACCORDION'; args: { reviewNumber: number } }
   | { type: 'SET_OPEN_REVIEWS'; args: { reviewNumbers: number[] } }
@@ -181,6 +185,7 @@ const initialState = {
   total3: 0,
   total2: 0,
   total1: 0,
+  rating: 3,
   reviewSubmitted: false,
   average: 0,
   hasTotal: false,
@@ -213,10 +218,15 @@ const reducer = (state: State, action: ReducerActions) => {
         from: state.from - (state.from < 11 ? 0 : 10),
         to: state.from > 10 ? state.from - 1 : state.to,
       }
+    case 'SET_RATING':
+    return {
+      ...state,
+      rating: action.args.rating,
+    }
     case 'TOGGLE_REVIEW_FORM':
       return {
         ...state,
-        showForm: !state.showForm,
+        showForm: !state.showForm
       }
     case 'TOGGLE_REVIEW_ACCORDION':
       return {
@@ -407,6 +417,10 @@ const messages = defineMessages({
     id: 'store/reviews.list.review-number-plural',
     defaultMessage: 'reviews',
   },
+  ratingLabel: {
+    id: 'store/reviews.form.label.rating',
+    defaultMessage: 'Rate the product from 1 to 5 stars',
+  },
   reviewRequestHeading: {
     id: 'store/reviews.list.reviewRequestHeading',
     defaultMessage: "You have something to say about this product?",
@@ -445,6 +459,7 @@ const CSS_HANDLES = [
   'writeReviewFlex',
   'reviewBarCount',
   'noReviews',
+  'noReviewsStarPicker',
   'noReviewsText',
   'reviewBarCheckBox',
   'reviewBarTotal',
@@ -457,8 +472,8 @@ const CSS_HANDLES = [
   'reviewSubmittedText',
   'reviewSubmittedTextHeading',
   'reviewSubmittedTextParagraph',
-  'reviewSubmittedImageWrapper'
-
+  'reviewSubmittedImageWrapper',
+  'writeReviewStarPicker'
 ] as const
 
 const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
@@ -767,6 +782,13 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
     width: (state.total1 / state.total) * 100 + "%"
   }
 
+  const starsSendCb = (index:number): void=> dispatch({
+                            type: 'SET_RATING',
+                            args: {
+                              rating: index + 1,
+                            },
+                          })
+
   return (
     <div className={`${handles.container} review mw8 center ph5`}>
       <h3 className={`${handles.reviewsHeading} review__title t-heading-3 bb b--muted-5 mb5`} >
@@ -843,21 +865,40 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
                 (state.settings &&
                   !state.settings.allowAnonymousReviews &&
                   state.userAuthenticated) ? (
-                  <Collapsible
-                    header={
-                      <span className={`${handles.writeReviewButton}`} >
-                        <FormattedMessage id="store/reviews.form.submit" />
-                      </span>
+                    // review toggle from
+                  <>
+                    {
+                      state.showForm || 
+                      <StarPicker              
+                        label={""}
+                        additionalClass = {`${handles.noReviewsStarPicker} ${handles.writeReviewStarPicker}`}
+                        rating={state.rating}
+                        onStarClick={(_, index: number) => {
+                          dispatch({
+                            type: 'SET_RATING',
+                            args: {
+                              rating: index + 1,
+                            },
+                          })
+                        }}
+                      />
                     }
-                    onClick={() => {
-                      dispatch({
-                        type: 'TOGGLE_REVIEW_FORM',
-                      })
-                    }}
-                    isOpen={state.showForm}
-                  >
-                    <ReviewForm settings={state.settings} />
-                  </Collapsible>
+                    <Collapsible
+                      header={
+                        <span className={`${handles.writeReviewButton}`} >
+                          <FormattedMessage id="store/reviews.form.submit" />
+                        </span>
+                      }
+                      onClick={() => {
+                        dispatch({
+                          type: 'TOGGLE_REVIEW_FORM',
+                        })
+                      }}
+                      isOpen={state.showForm}
+                    >
+                      <ReviewForm settings={state.settings} rating={state.rating} starsSendCb={starsSendCb} />
+                    </Collapsible>
+                  </>
                 ) : (
                   <Link
                     page="store.login"
