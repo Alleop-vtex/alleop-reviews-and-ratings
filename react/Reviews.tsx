@@ -865,7 +865,25 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
                   !state.settings.allowAnonymousReviews &&
                   state.userAuthenticated) ? (
                     // review toggle from
-                  <>
+
+                    state.submitted ? 
+                      (
+                        <div className={`${handles.reviewSubmittedHolder}`}>
+                          <div className={`${handles.reviewSubmittedImageWrapper}`}>
+                            <div className={`${handles.reviewSubmittedImage}`}>
+                              {/* <img src="public/metadata/thank-you-review-section.svg" alt=""/> */}
+                            </div>
+                          </div>
+                          <div className={`${handles.reviewSubmittedText}`}>
+                            <h5 className={`${handles.reviewSubmittedTextHeading}`}>Благодарим ти, че сподели мнението си!</h5>
+                            <p className={`${handles.reviewSubmittedTextParagraph}`}> 
+                              Всяко ревю се разглежда от администратор преди да бъде публикувано в сайта.
+                            </p>
+                          </div>
+                        </div>
+                      )
+                      : 
+                  (<div>
                     {
                       state.showForm || 
                       <StarPicker              
@@ -895,9 +913,9 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
                       }}
                       isOpen={state.showForm}
                     >
-                      <ReviewForm settings={state.settings} rating={state.rating} starsSendCb={starsSendCb} />
+                      <ReviewForm settings={state.settings} rating={state.rating} starsSendCb={starsSendCb} cb={setSubmitted} />
                     </Collapsible>
-                  </>
+                  </div>)
                 ) : (
                   <Link
                     page="store.login"
@@ -1167,7 +1185,9 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
             </div>
           </Fragment>
         ) : (
-          <div className={`${handles.noReviews}`}>
+          //Already submitted review
+          <div className={`${handles.noReviews}`}>                
+          {console.log("WORKING")}
             {state.submitted ? 
             (
               <div className={`${handles.reviewSubmittedHolder}`}>
