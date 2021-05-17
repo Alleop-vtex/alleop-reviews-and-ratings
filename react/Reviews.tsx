@@ -1187,7 +1187,7 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
         ) : (
           //Already submitted review
           <div className={`${handles.noReviews}`}>                
-          {console.log("WORKING")}
+          
             {state.submitted ? 
             (
               <div className={`${handles.reviewSubmittedHolder}`}>
