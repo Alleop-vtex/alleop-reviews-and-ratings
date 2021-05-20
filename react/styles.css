@@ -17,6 +17,7 @@
     background-repeat: no-repeat;
 }
 .reviewSubmittedHolder{
+    padding-top: 20px;
     display: flex;
 }
 .reeviewBarCheckBox{
