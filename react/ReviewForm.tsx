@@ -81,7 +81,7 @@ type ReducerActions =
   | { type: 'SHOW_VALIDATION' }
 
 const initialState = {
-  rating: 3,
+  rating: 0,
   title: '',
   text: '',
   location: '',
