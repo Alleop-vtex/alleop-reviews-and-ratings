@@ -473,7 +473,10 @@ const CSS_HANDLES = [
   'reviewSubmittedTextHeading',
   'reviewSubmittedTextParagraph',
   'reviewSubmittedImageWrapper',
-  'writeReviewStarPicker'
+  'writeReviewStarPicker',
+  'writeReviewContainer',
+  "toggleWriteReviewContainer",
+  "reviewStartPickerHolder"
 ] as const
 
 const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
@@ -725,6 +728,8 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
           args: { average },
         })
       })
+
+      
   }, [client, productId])
 
   useEffect(() => {
@@ -883,10 +888,11 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
                         </div>
                       )
                       : 
-                  (<div>
+                  (<>
                     {
                       state.showForm || 
-                      <StarPicker              
+                      <div className={`${handles.reviewStartPickerHolder}`}>
+                        <StarPicker              
                         label={""}
                         additionalClass = {`${handles.noReviewsStarPicker} ${handles.writeReviewStarPicker}`}
                         rating={state.rating}
@@ -898,7 +904,9 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
                             },
                           })
                         }}
-                      />
+                        />
+                      </div>
+
                     }
                     <Collapsible
                       header={
@@ -913,9 +921,9 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
                       }}
                       isOpen={state.showForm}
                     >
-                      <ReviewForm settings={state.settings} rating={state.rating} starsSendCb={starsSendCb} cb={setSubmitted} />
+                      <ReviewForm settings={state.settings} rating={state.rating} starsSendCb={starsSendCb} cb={setSubmitted} hasTotalReviews={state.hasAverage && state.hasTotal} />
                     </Collapsible>
-                  </div>)
+                  </>)
                 ) : (
                   <Link
                     page="store.login"
@@ -1206,7 +1214,7 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
             )
             : 
             (
-              <div>
+              <>
                 <h3 className={`${handles.noReviewsText}`}>
                   <FormattedMessage id="store/reviews.list.emptyState" />
                 </h3>
@@ -1238,7 +1246,7 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
                     )}
                   </div>
                 </div>
-              </div>
+              </>
             )
             }
           </div>

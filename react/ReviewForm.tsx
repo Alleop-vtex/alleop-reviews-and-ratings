@@ -37,6 +37,7 @@ interface Props {
   settings?: AppSettings
   cb: Function
   rating: number,
+  hasTotalReviews: boolean,
   starsSendCb: Function 
 }
 
@@ -221,7 +222,9 @@ const CSS_HANDLES = [
   'sendReviewButton',
   'termsOfUSe',
   'noReviewsStarPicker',
-  'formSection'
+  'formSection',
+  'alredySubmittedMessage',
+  'hasReviewFormCntainer'
   ] as const
 
 export const ReviewForm: FC<InjectedIntlProps & Props> = ({
@@ -231,6 +234,7 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
   cb, 
   starsSendCb,
   rating,
+  hasTotalReviews
 }) => {
   const handles = useCssHandles(CSS_HANDLES)
   const { product } = useContext(ProductContext) as any
@@ -394,17 +398,17 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
   
   return (
   
-    <div className={`${handles.formContainer} bg-muted-5 pa5 mt2`}>
+    <div className={`${handles.formContainer} ${hasTotalReviews ? handles.hasReviewFormCntainer: ""} bg-muted-5 pa5 mt2`}>
       <Card>
         {state.reviewSubmitted ? (
-          null          
+        null   
         ) : state.alreadySubmitted ? (
-          <div className="c-danger t-small mt3 lh-title">
-            <FormattedMessage id="store/reviews.form.alreadySubmitted" />
-          </div>
+            <div className={`c-danger t-small mt3 lh-title ${handles.alredySubmittedMessage}`}>
+              <FormattedMessage id="store/reviews.form.alreadySubmitted" />
+            </div>
+          
         ) : (
           <form>
-
             <div className={`mv3 ${handles.formSection}`}>
               
               <StarPicker
