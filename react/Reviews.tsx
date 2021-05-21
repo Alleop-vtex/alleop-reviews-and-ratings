@@ -185,7 +185,7 @@ const initialState = {
   total3: 0,
   total2: 0,
   total1: 0,
-  rating: 3,
+  rating: 0,
   reviewSubmitted: false,
   average: 0,
   hasTotal: false,
