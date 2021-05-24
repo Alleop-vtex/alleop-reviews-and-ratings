@@ -227,7 +227,8 @@ const CSS_HANDLES = [
   'formSection',
   'alredySubmittedMessage',
   'hasReviewFormCntainer',
-  'customInput'
+  'customInput',
+  'starsBgGrey'
   ] as const
 
 export const ReviewForm: FC<InjectedIntlProps & Props> = ({
@@ -441,7 +442,7 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
               
               <StarPicker
                 label={intl.formatMessage(messages.ratingLabel)}
-                additionalClass = {`${handles.noReviewsStarPicker}`}
+                additionalClass = {`${handles.noReviewsStarPicker} ${handles.starsBgGrey}`}
                 rating={state.rating}
                 onStarClick={(_, index: number) => {
                   dispatch({
@@ -569,9 +570,9 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
                   )}
 
                 <div className={`${handles.termsOfUSe}`}>
-                  <p>
+                  <span>
                     C публикуването на ревюто се съгласяваш с <a href={'#'} className="termOfUseLink">Условията за ползване</a> на сайта
-                  </p>
+                  </span>
                 </div>
 
                 <div className={`${handles.sendReviewButton}`} onClick={() => submitReview(cb)}>
