@@ -13,12 +13,14 @@ import {
 import flowRight from 'lodash.flowright'
 import path from 'ramda/es/path'
 import { useCssHandles } from 'vtex.css-handles'
-import { Card, Input, Textarea } from 'vtex.styleguide'
+import { Card, Input } from 'vtex.styleguide'
 
 import getOrders from './queries/orders.graphql'
 import NewReview from '../graphql/newReview.graphql'
 import HasShopperReviewed from '../graphql/hasShopperReviewed.graphql'
 import StarPicker from './components/StarPicker'
+import CustomInput from './customInput/CustomInput'
+import CustomTextArea from './customTextArea/CustomTextArea'
 
 interface Product {
   productId: string
@@ -224,7 +226,8 @@ const CSS_HANDLES = [
   'noReviewsStarPicker',
   'formSection',
   'alredySubmittedMessage',
-  'hasReviewFormCntainer'
+  'hasReviewFormCntainer',
+  'customInput'
   ] as const
 
 export const ReviewForm: FC<InjectedIntlProps & Props> = ({
@@ -393,6 +396,31 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
     }
   }
 
+  const reviewerNameHandler = (value : string) => {
+    dispatch({
+      type: 'SET_NAME',
+      args: {
+        name: value,
+      },
+    })
+  }
+  const reviewTitleHandler = (value: string) => {
+    dispatch({
+      type: 'SET_TITLE',
+      args: {
+        title: value
+      }
+    })
+  }
+  const textHandler = (value: string) => {
+    dispatch({
+      type: 'SET_TEXT',
+      args: {
+        text: value
+      }
+    })
+  }
+
  
   rating && state.rating !== rating && (state.rating = rating )
   
@@ -426,20 +454,13 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
                 }}
               />
             </div>
-           
+
+            {/* <CustomInput text="Custom Input Test"/> */}
             <div className={`mv3 ${handles.formSection}`}>
-              <Input
-                label={intl.formatMessage(messages.nameLabel)}
-                size="large"
+              <CustomInput
+                text={intl.formatMessage(messages.nameLabel)}
                 value={state.reviewerName}
-                onChange={(event: React.FormEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: 'SET_NAME',
-                    args: {
-                      name: event.currentTarget.value,
-                    },
-                  })
-                }
+                onChange={reviewerNameHandler}
                 errorMessage={
                   state.showValidationErrors && !state.validation.hasName
                     ? intl.formatMessage(messages.requiredField)
@@ -447,28 +468,19 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
                 }
               />
             </div>
-
             <div className={`mv3 ${handles.formSection}`}>
-              <Input
-                label={intl.formatMessage(messages.reviewTitleLabel)}
-                size="large"
-                value={state.title}
-                required
-                onChange={(event: React.FormEvent<HTMLInputElement>) =>
-                  dispatch({
-                    type: 'SET_TITLE',
-                    args: {
-                      title: event.currentTarget.value,
-                    },
-                  })
-                }
-                errorMessage={
-                  state.showValidationErrors && !state.validation.hasTitle
-                    ? intl.formatMessage(messages.requiredField)
-                    : ''
-                }
-              />
+                <CustomInput
+                  text={intl.formatMessage(messages.reviewTitleLabel)} 
+                  value={state.title}
+                  onChange={reviewTitleHandler}
+                  errorMessage={
+                    state.showValidationErrors && !state.validation.hasTitle
+                      ? intl.formatMessage(messages.requiredField)
+                      : ''
+                  }
+                />
             </div>
+           
 
             {settings?.useLocation && (
               <div className={`mv3 ${handles.formSection}`}>
@@ -510,7 +522,21 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
                 />
               </div>
             )}
+
             <div className={`mv3 ${handles.formSection}`}>
+                  <CustomTextArea
+                    text={intl.formatMessage(messages.reviewLabel)}
+                    value={state.text}
+                    onChange={textHandler}
+                    errorMessage={
+                      state.showValidationErrors && !state.validation.hasText
+                      ? intl.formatMessage(messages.requiredField)
+                      : ''
+                    }
+                  />
+            </div>
+
+            {/* <div className={`mv3 ${handles.formSection}`}>
               <Textarea
                 value={state.text}
                 onChange={(event: React.FormEvent<HTMLTextAreaElement>) =>
@@ -529,7 +555,7 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
                 }
                 resize={"none"}
               />
-            </div>
+            </div> */}
             <div className={`mv3`}>
               <Fragment>
                 {state.showValidationErrors &&

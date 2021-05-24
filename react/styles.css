@@ -31,3 +31,6 @@
 .reeviewBarInputActive{
     background: green;
 }
+.customTextarea{
+    resize: none;
+}
