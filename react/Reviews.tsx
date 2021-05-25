@@ -476,7 +476,11 @@ const CSS_HANDLES = [
   'writeReviewStarPicker',
   'writeReviewContainer',
   "toggleWriteReviewContainer",
-  "reviewStartPickerHolder"
+  "reviewStartPickerHolder",
+  'reviewContainer',
+  'reviewLeftCol',
+  'reviewRightCol',
+  'reviewerUser'
 ] as const
 
 const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
@@ -988,78 +992,43 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
                         })}
                       </script>
                     </Helmet>
-                    {state.settings.defaultOpen ? (
-                      <div>
-                        <span className={`${handles.reviewUsername}`}>
-                          {review.reviewerName || intl.formatMessage(messages.anonymous)}
-                        </span>
-                        <div className={`${handles.reviewCommentRating} review__comment--rating t-heading-5`} >
-                          <Stars rating={review.rating} /> {` `}
-                          <span className={`${handles.reviewCommentUser} review__comment--user lh-copy mw9 t-heading-5 mt0 mb2`} >
-                            {review.title}
-                          </span>
+                      <div className={`${handles.reviewContainer}`}>
+                        <div className={`${handles.reviewLeftCol}`}>
+                            <div className={`${handles.reviewerUser}`}>
+                                {review.reviewerName || intl.formatMessage(messages.anonymous)}
+                            </div>
                         </div>
-                        <ul className="pa0 mv2 t-small">
-                          {review.verifiedPurchaser ? (
-                            <li className="dib mr5">
-                              <IconSuccess />{' '}
-                              <FormattedMessage id="store/reviews.list.verifiedPurchaser" />
-                            </li>
-                          ) : null}
-                          <span className={`${handles.reviewDate}`}>
-                            <FormattedMessage id="store/reviews.list.submitted" />{' '}
-                            {getTimeAgo(review.reviewDateTime)}
-                          </span>
-                        </ul>
-                        <p className={`${handles.reviewText}`}>
-                          <ShowMore
-                            lines={3}
-                            more="Show more"
-                            less="Show less"
-                            anchorClass=""
-                          >
-                            {review.text}
-                          </ShowMore>
-                        </p>
-                      </div>
-                    ) : (
-                      <Collapsible
-                        header={
-                          <div className={`${handles.reviewCommentRating} review__comment--rating t-heading-5`} >
-                            <Stars rating={review.rating} /> {` `}
-                            <span className={`${handles.reviewCommentUser} review__comment--user lh-copy mw9 t-heading-5 mt0 mb2`} >
-                              {review.title}
-                            </span>
-                          </div>
-                        }
-                        onClick={() => {
-                          dispatch({
-                            type: 'TOGGLE_REVIEW_ACCORDION',
-                            args: {
-                              reviewNumber: i,
-                            },
-                          })
-                        }}
-                        isOpen={state.openReviews.includes(i)}
-                      >
-                        <span className={`${handles.reviewUsername}`}>
-                          {review.reviewerName || intl.formatMessage(messages.anonymous)}
-                        </span>
-                        <ul className="pa0 mv2 t-small">
-                          {review.verifiedPurchaser ? (
-                            <li className="dib mr5">
-                              <IconSuccess />{' '}
-                              <FormattedMessage id="store/reviews.list.verifiedPurchaser" />
-                            </li>
-                          ) : null}
-                          <span className={`${handles.reviewDate}`}>
-                            <FormattedMessage id="store/reviews.list.submitted" />{' '}
-                            {getTimeAgo(review.reviewDateTime)}
-                          </span>
-                        </ul>
-                        <p className={`${handles.reviewText}`}>{review.text}</p>
-                      </Collapsible>
-                    )}
+                        <div className={`${handles.reviewRightCol}`}>
+                            <div className={`${handles.reviewCommentRating} review__comment--rating t-heading-5`} >
+                                <Stars rating={review.rating} /> {` `}
+                                <span className={`${handles.reviewCommentUser} review__comment--user lh-copy mw9 t-heading-5 mt0 mb2`} >
+                                    {review.title}
+                                </span>
+                            </div>
+                            <ul className="pa0 mv2 t-small">
+                                {review.verifiedPurchaser ? (
+                                    <li className="dib mr5">
+                                    <IconSuccess />{' '}
+                                    <FormattedMessage id="store/reviews.list.verifiedPurchaser" />
+                                    </li>
+                                ) : null}
+                                <span className={`${handles.reviewDate}`}>
+                                    <FormattedMessage id="store/reviews.list.submitted" />{' '}
+                                    {getTimeAgo(review.reviewDateTime)}
+                                </span>
+                            </ul>
+                            <p className={`${handles.reviewText}`}>
+                                <ShowMore
+                                lines={3}
+                                more="Show more"
+                                less="Show less"
+                                anchorClass=""
+                                >
+                                {review.text}
+                                </ShowMore>
+                            </p>
+                        </div>
+                    </div>    
                   </div>
                   )
                 }
@@ -1096,78 +1065,43 @@ const Reviews: FunctionComponent<InjectedIntlProps & Props> = props => {
                         })}
                       </script>
                     </Helmet>
-                    {state.settings.defaultOpen ? (
-                      <div>
-                        <span className={`${handles.reviewUsername}`}>
-                          {review.reviewerName || intl.formatMessage(messages.anonymous)}
-                        </span>
-                        <div className={`${handles.reviewCommentRating} review__comment--rating t-heading-5`} >
-                          <Stars rating={review.rating} /> {` `}
-                          <span className={`${handles.reviewCommentUser} review__comment--user lh-copy mw9 t-heading-5 mt0 mb2`} >
-                            {review.title}
-                          </span>
+                    <div className={`${handles.reviewContainer}`}>
+                        <div className={`${handles.reviewLeftCol}`}>
+                            <div className={`${handles.reviewerUser}`}>
+                                {review.reviewerName || intl.formatMessage(messages.anonymous)}
+                            </div>
                         </div>
-                        <ul className="pa0 mv2 t-small">
-                          {review.verifiedPurchaser ? (
-                            <li className="dib mr5">
-                              <IconSuccess />{' '}
-                              <FormattedMessage id="store/reviews.list.verifiedPurchaser" />
-                            </li>
-                          ) : null}
-                          <span className={`${handles.reviewDate}`}>
-                            <FormattedMessage id="store/reviews.list.submitted" />{' '}
-                            {getTimeAgo(review.reviewDateTime)}
-                          </span>
-                        </ul>
-                        <p className={`${handles.reviewText}`}>
-                          <ShowMore
-                            lines={3}
-                            more="Show more"
-                            less="Show less"
-                            anchorClass=""
-                          >
-                            {review.text}
-                          </ShowMore>
-                        </p>
-                      </div>
-                    ) : (
-                      <Collapsible
-                        header={
-                          <div className={`${handles.reviewCommentRating} review__comment--rating t-heading-5`} >
-                            <Stars rating={review.rating} /> {` `}
-                            <span className={`${handles.reviewCommentUser} review__comment--user lh-copy mw9 t-heading-5 mt0 mb2`} >
-                              {review.title}
-                            </span>
-                          </div>
-                        }
-                        onClick={() => {
-                          dispatch({
-                            type: 'TOGGLE_REVIEW_ACCORDION',
-                            args: {
-                              reviewNumber: i,
-                            },
-                          })
-                        }}
-                        isOpen={state.openReviews.includes(i)}
-                      >
-                        <span className={`${handles.reviewUsername}`}>
-                          {review.reviewerName || intl.formatMessage(messages.anonymous)}
-                        </span>
-                        <ul className="pa0 mv2 t-small">
-                          {review.verifiedPurchaser ? (
-                            <li className="dib mr5">
-                              <IconSuccess />{' '}
-                              <FormattedMessage id="store/reviews.list.verifiedPurchaser" />
-                            </li>
-                          ) : null}
-                          <span className={`${handles.reviewDate}`}>
-                            <FormattedMessage id="store/reviews.list.submitted" />{' '}
-                            {getTimeAgo(review.reviewDateTime)}
-                          </span>
-                        </ul>
-                        <p className={`${handles.reviewText}`}>{review.text}</p>
-                      </Collapsible>
-                    )}
+                        <div className={`${handles.reviewRightCol}`}>
+                            <div className={`${handles.reviewCommentRating} review__comment--rating t-heading-5`} >
+                                <Stars rating={review.rating} /> {` `}
+                                <span className={`${handles.reviewCommentUser} review__comment--user lh-copy mw9 t-heading-5 mt0 mb2`} >
+                                    {review.title}
+                                </span>
+                            </div>
+                            <ul className="pa0 mv2 t-small">
+                                {review.verifiedPurchaser ? (
+                                    <li className="dib mr5">
+                                    <IconSuccess />{' '}
+                                    <FormattedMessage id="store/reviews.list.verifiedPurchaser" />
+                                    </li>
+                                ) : null}
+                                <span className={`${handles.reviewDate}`}>
+                                    <FormattedMessage id="store/reviews.list.submitted" />{' '}
+                                    {getTimeAgo(review.reviewDateTime)}
+                                </span>
+                            </ul>
+                            <p className={`${handles.reviewText}`}>
+                                <ShowMore
+                                lines={3}
+                                more="Show more"
+                                less="Show less"
+                                anchorClass=""
+                                >
+                                {review.text}
+                                </ShowMore>
+                            </p>
+                        </div>
+                    </div>    
                   </div>
                 )
               }
