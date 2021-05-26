@@ -4,7 +4,7 @@ import styles from '../styles.css'
 
 const Star: FunctionComponent<StarProps> = ({ filled, onClick, onMouseEnter, onMouseLeave, index = 0 }) => {
   const style = filled ? styles['star--filled'] : styles['star--empty']
-  const content = filled ? '★' : '☆'
+  const content = '★'
 
   const handleClick = (
     event:
