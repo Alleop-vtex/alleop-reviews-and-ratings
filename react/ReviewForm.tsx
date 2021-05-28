@@ -441,7 +441,7 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
             <div className={`mv3 ${handles.formSection}`}>
               
               <StarPicker
-                label={intl.formatMessage(messages.ratingLabel)}
+                label={intl.formatMessage(messages.ratingLabel) + ':'}
                 additionalClass = {`${handles.noReviewsStarPicker} ${handles.starsBgGrey}`}
                 rating={state.rating}
                 onStarClick={(_, index: number) => {
