@@ -134,7 +134,7 @@ const reducer = (state: State, action: ReducerActions) => {
   }
 }
 
-const CSS_HANDLES = ['inlineContainer', 'starsCount', 'starsContainer'] as const
+const CSS_HANDLES = ['inlineContainer', 'starsCount', 'starsContainerInline'] as const
 
 const RatingInline: FunctionComponent<Props> = props => {
   const { client } = props
@@ -276,7 +276,7 @@ const RatingInline: FunctionComponent<Props> = props => {
       {!state.hasTotal || !state.hasAverage ? null : state.total ===
         0 ? null : (
         <Fragment>
-          <span className={`t-heading-5 v-mid ${handles.starsContainer}`}>
+          <span className={`t-heading-5 v-mid ${handles.starsContainerInline}`}>
             <Stars rating={state.average} />
           </span>{' '}
           <span className={`review__rating__inline--count dib v-mid ${handles.starsCount}`}>
