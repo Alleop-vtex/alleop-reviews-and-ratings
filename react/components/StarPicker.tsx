@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useMemo } from 'react'
+import React, { FunctionComponent, useMemo, useState } from 'react'
 
 import Star from './Star'
 import styles from '../styles.css'
@@ -17,10 +17,8 @@ const StarPicker: FunctionComponent<StarPickerProps> = ({
       ),
     [rating]
   )
-
-  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   onChange(event)
-  // }
+  const [hoverState, setHoverState] = useState<null | number>(null)
+  
 
   const handleStarClick = (
     event:
@@ -30,22 +28,13 @@ const StarPicker: FunctionComponent<StarPickerProps> = ({
   ) => {
     onStarClick(event, index)
   }
+  
+  const handleStarHover = (index : number) =>{
+    setHoverState(index)
+  } 
 
 
-  // const hoverStar = (
-  //   event:
-  //     | React.KeyboardEvent<HTMLSpanElement>
-  //     | React.MouseEvent<HTMLSpanElement>,
-  //   index: number
-  // ) => {
-  //   console.log(event.target, index)
-  // }
 
-  // const inputStyles = {
-  //   display: 'none',
-  //   position: 'absolute' as 'absolute',
-  //   marginLeft: -9999,
-  // }
 
   const labelClasses = 'vtex-input__label db mb3 w-100 c-on-base ' + additionalClass
 
@@ -56,9 +45,10 @@ const StarPicker: FunctionComponent<StarPickerProps> = ({
         {stars.map((value, index) => (
           <Star
             key={index}
-            filled={value}
+            filled={value || (index <= (hoverState || -1))}
             index={index}
             onClick={handleStarClick}
+            onMouseEnter={() => handleStarHover(index)}
           />
         ))}
       </span>
