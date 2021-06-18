@@ -7,10 +7,13 @@ const Stars: FunctionComponent<StarsProps> = ({ rating }) => {
   const stars = useMemo(
     () =>
       [null, null, null, null, null].map(
-        (_, index) => index < Math.floor(rating)
+        (_, index) => {
+          return index < Math.floor(rating)
+        }
       ),
     [rating]
   )
+ 
 
   return (
     <span className={`${styles.stars} c-action-primary`}>

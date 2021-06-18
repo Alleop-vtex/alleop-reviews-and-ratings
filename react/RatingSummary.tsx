@@ -145,7 +145,6 @@ const RatingSummary: FunctionComponent<Props> = props => {
   const { productId, productName }: Product = product || {}
 
   const [state, dispatch] = useReducer(reducer, initialState)
-
   useEffect(() => {
     if (!productId) {
       return
@@ -261,7 +260,7 @@ const RatingSummary: FunctionComponent<Props> = props => {
     <div className={`${handles.summaryContainer} review-summary mw8 center`}>
       {!state.hasTotal || !state.hasAverage ? (
         <Fragment>Loading reviews...</Fragment>
-      ) : state.total === 0 ? null : (
+      ) :  (
         <Fragment>
           <Helmet>
             <script type="application/ld+json">
