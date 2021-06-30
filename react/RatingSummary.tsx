@@ -24,6 +24,7 @@ import AverageRatingByProductId from '../graphql/averageRatingByProductId.graphq
 interface Product {
   productId: string
   productName: string
+  link: string
 }
 
 interface Props {
@@ -142,7 +143,7 @@ const RatingSummary: FunctionComponent<Props> = props => {
 
   const handles = useCssHandles(CSS_HANDLES)
   const { product } = useContext(ProductContext) as any
-  const { productId, productName }: Product = product || {}
+  const { productId, productName, link}: Product = product || {}
 
   const [state, dispatch] = useReducer(reducer, initialState)
   useEffect(() => {
@@ -267,12 +268,22 @@ const RatingSummary: FunctionComponent<Props> = props => {
               {JSON.stringify({
                 '@context': 'http://schema.org',
                 '@type': 'Product',
+                '@id': link,
                 aggregateRating: {
                   '@type': 'AggregateRating',
                   ratingValue: state.average.toString(),
                   reviewCount: state.total.toString(),
                 },
-                name: productName,
+                'subjectOf':{
+                  'name': productName
+                },
+                'review': {
+                  '@type': 'Review',
+                  'reviewRating':{
+                    "bestRating": "5",
+                    "worstRating": "1"
+                  }
+                }
               })}
             </script>
           </Helmet>
