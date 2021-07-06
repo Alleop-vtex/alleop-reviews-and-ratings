@@ -144,7 +144,7 @@ const RatingSummary: FunctionComponent<Props> = props => {
   const handles = useCssHandles(CSS_HANDLES)
   const { product } = useContext(ProductContext) as any
   const { productId, productName, link}: Product = product || {}
-
+  console.log(product)
   const [state, dispatch] = useReducer(reducer, initialState)
   useEffect(() => {
     if (!productId) {
@@ -272,7 +272,7 @@ const RatingSummary: FunctionComponent<Props> = props => {
                 aggregateRating: {
                   '@type': 'AggregateRating',
                   ratingValue: state.average.toString(),
-                  reviewCount: state.total.toString(),
+                  reviewCount: state.total == 0 ? "1": state.total.toString(),
                 },
                 'subjectOf':{
                   'name': productName
@@ -283,6 +283,9 @@ const RatingSummary: FunctionComponent<Props> = props => {
                     "bestRating": "5",
                     "worstRating": "1"
                   }
+                },
+                "offers": {
+                  "@type": "Offer",
                 }
               })}
             </script>
