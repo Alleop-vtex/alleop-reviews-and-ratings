@@ -67,6 +67,7 @@ interface Validation {
   hasText: boolean
   hasName: boolean
   hasValidEmail: boolean
+  hasRating: boolean
 }
 
 type ReducerActions =
@@ -98,6 +99,7 @@ const initialState = {
     hasText: false,
     hasName: false,
     hasValidEmail: false,
+    hasRating: false,
   },
   showValidationErrors: false,
 }
@@ -108,6 +110,10 @@ const reducer = (state: State, action: ReducerActions) => {
       return {
         ...state,
         rating: action.args.rating,
+        validation: {
+          ...state.validation,
+          hasRating: !!action.args.rating
+        }
       }
     case 'SET_TITLE':
       return {
@@ -366,7 +372,8 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
       state.validation.hasName &&
       state.validation.hasTitle &&
       state.validation.hasText &&
-      state.validation.hasValidEmail
+      state.validation.hasValidEmail &&
+      state.validation.hasRating
     ) {
       client
         .mutate({
@@ -559,11 +566,12 @@ export const ReviewForm: FC<InjectedIntlProps & Props> = ({
             </div> */}
             <div className={`mv3`}>
               <Fragment>
-                {state.showValidationErrors &&
+                { state.showValidationErrors &&
                   (!state.validation.hasName ||
                     !state.validation.hasTitle ||
                     !state.validation.hasText ||
-                    !state.validation.hasValidEmail) && (
+                    !state.validation.hasValidEmail ||
+                    !state.validation.hasRating) && (
                     <div className="c-danger t-small mt3 lh-title">
                       <FormattedMessage id="store/reviews.form.invalid" />
                     </div>
